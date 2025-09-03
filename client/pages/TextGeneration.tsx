@@ -110,12 +110,13 @@ export default function TextGeneration() {
             <div className="h-12 w-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
               <PenTool className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold">Text Generation</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-white">
+              Text Generation
+            </h1>
           </div>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <span className="text-white">
             Create compelling content with our advanced AI text generation
-            powered by Qwen-Max
-          </p>
+          </span>
           <Badge variant="secondary" className="mt-4">
             <Sparkles className="h-3 w-3 mr-1" />
             Powered by Qwen-Max
@@ -259,16 +260,18 @@ export default function TextGeneration() {
 
         {/* Features */}
         <div className="mt-16">
-          <h2 className="text-2xl font-bold text-center mb-8">
+          <h2 className="text-2xl font-bold text-center mb-8 text-white">
             Text Generation Features
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Multiple Formats</CardTitle>
+                <CardTitle className="text-lg text-white">
+                  Multiple Formats
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">
+                <p className="text-white">
                   Generate social media posts, blog articles, marketing copy,
                   and more.
                 </p>
@@ -276,20 +279,20 @@ export default function TextGeneration() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Tone Control</CardTitle>
+                <CardTitle className="text-lg text-white">Tone Control</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">
+                <p className="text-white">
                   Adjust the tone and style to match your brand voice perfectly.
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Export Options</CardTitle>
+                <CardTitle className="text-lg text-white">Export Options</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">
+                <p className="text-white">
                   Copy to clipboard or download as text files for easy sharing.
                 </p>
               </CardContent>

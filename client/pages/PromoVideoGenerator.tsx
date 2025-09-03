@@ -219,11 +219,11 @@ export default function PromoVideoGenerator() {
             <div className="h-12 w-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
               <Video className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold">
+            <h1 className="text-3xl md:text-4xl font-bold text-white">
               Promo Video Generator
             </h1>
           </div>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-white max-w-2xl mx-auto">
             Create professional 20-second promotional videos from script to
             final render with unified visual theming
           </p>
@@ -257,7 +257,7 @@ export default function PromoVideoGenerator() {
                     rows={6}
                     className="resize-none"
                   />
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-xs text-white">
                     {script.length} characters (~
                     {Math.ceil(script.length / 150)} seconds)
                   </div>
@@ -274,7 +274,7 @@ export default function PromoVideoGenerator() {
                         <SelectItem key={theme.value} value={theme.value}>
                           <div>
                             <div className="font-medium">{theme.label}</div>
-                            <div className="text-xs text-muted-foreground">
+                            <div className="text-xs text-white">
                               {theme.description}
                             </div>
                           </div>
@@ -283,7 +283,7 @@ export default function PromoVideoGenerator() {
                     </SelectContent>
                   </Select>
                   {selectedTheme && (
-                    <div className="text-xs text-muted-foreground bg-muted/50 p-2 rounded">
+                    <div className="text-xs text-white bg-muted/50 p-2 rounded">
                       {selectedTheme.description}
                     </div>
                   )}
@@ -322,7 +322,7 @@ export default function PromoVideoGenerator() {
                         <SelectItem key={ratio.value} value={ratio.value}>
                           <div>
                             <div className="font-medium">{ratio.label}</div>
-                            <div className="text-xs text-muted-foreground">
+                            <div className="text-xs text-white">
                               {ratio.description}
                             </div>
                           </div>
@@ -391,7 +391,7 @@ export default function PromoVideoGenerator() {
                   <div className="space-y-6">
                     {/* Overall Progress */}
                     <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
+                      <div className="flex justify-between text-sm text-white">
                         <span>Generation Progress</span>
                         <span>{Math.round(generationProgress)}%</span>
                       </div>
@@ -402,10 +402,10 @@ export default function PromoVideoGenerator() {
                     {currentStage && (
                       <div className="bg-muted/50 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium">{currentStage.stage}</h4>
+                          <h4 className="font-medium text-white">{currentStage.stage}</h4>
                           <RefreshCw className="h-4 w-4 animate-spin text-primary" />
                         </div>
-                        <p className="text-sm text-muted-foreground mb-3">
+                        <p className="text-sm text-white mb-3">
                           {currentStage.description}
                         </p>
                         <Progress
@@ -434,10 +434,10 @@ export default function PromoVideoGenerator() {
                             {stage.completed ? "✓" : index + 1}
                           </div>
                           <div className="flex-1">
-                            <div className="font-medium text-sm">
+                            <div className="font-medium text-sm text-white">
                               {stage.stage}
                             </div>
-                            <div className="text-xs text-muted-foreground">
+                            <div className="text-xs text-white">
                               {stage.description}
                             </div>
                           </div>
@@ -460,10 +460,10 @@ export default function PromoVideoGenerator() {
                         >
                           <div className="text-center text-white">
                             <Video className="h-16 w-16 mx-auto mb-4" />
-                            <p className="text-lg font-semibold">
+                            <p className="text-lg font-semibold text-white">
                               Promotional Video
                             </p>
-                            <p className="text-sm opacity-75">
+                            <p className="text-sm opacity-75 text-white">
                               {duration}s | {aspectRatio} |{" "}
                               {selectedTheme?.label}
                             </p>
@@ -474,7 +474,7 @@ export default function PromoVideoGenerator() {
                             variant="ghost"
                             size="sm"
                             onClick={togglePlay}
-                            className="text-white hover:bg-white/20"
+                            className="text-white hover:bg-gray-900/40"
                           >
                             {isPlaying ? (
                               <Pause className="h-5 w-5" />
@@ -482,8 +482,8 @@ export default function PromoVideoGenerator() {
                               <Play className="h-5 w-5" />
                             )}
                           </Button>
-                          <div className="flex-1 mx-4 bg-white/20 rounded-full h-2">
-                            <div className="bg-white rounded-full h-full w-1/3"></div>
+                          <div className="flex-1 mx-4 bg-gray-900/40 rounded-full h-2">
+                            <div className="bg-gray-900/80 rounded-full h-full w-1/3"></div>
                           </div>
                           <span className="text-white text-sm">
                             0:{duration}
@@ -498,7 +498,7 @@ export default function PromoVideoGenerator() {
                           <FileText className="h-4 w-4 mr-2" />
                           <span className="font-medium">Original Script</span>
                         </div>
-                        <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans">
+                        <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans text-white">
                           {script}
                         </pre>
                       </div>
@@ -508,7 +508,7 @@ export default function PromoVideoGenerator() {
                       <div className="grid grid-cols-2 gap-4">
                         <div className="bg-muted/50 rounded-lg p-4">
                           <h4 className="font-medium mb-2">Video Specs</h4>
-                          <div className="space-y-1 text-sm text-muted-foreground">
+                          <div className="space-y-1 text-sm text-white">
                             <div>Duration: {duration} seconds</div>
                             <div>Aspect Ratio: {aspectRatio}</div>
                             <div>Quality: {quality[0]}%</div>
@@ -517,7 +517,7 @@ export default function PromoVideoGenerator() {
                         </div>
                         <div className="bg-muted/50 rounded-lg p-4">
                           <h4 className="font-medium mb-2">Generated Assets</h4>
-                          <div className="space-y-1 text-sm text-muted-foreground">
+                          <div className="space-y-1 text-sm text-white">
                             <div>✓ Storyboard scenes</div>
                             <div>✓ Visual transitions</div>
                             <div>✓ Text overlays</div>
@@ -547,7 +547,9 @@ export default function PromoVideoGenerator() {
           <div className="grid md:grid-cols-3 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Product Launches</CardTitle>
+                <CardTitle className="text-lg text-white">
+                  Product Launches
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground text-sm">
@@ -558,7 +560,9 @@ export default function PromoVideoGenerator() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Social Media Ads</CardTitle>
+                <CardTitle className="text-lg text-white">
+                  Social Media Ads
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground text-sm">
@@ -569,7 +573,9 @@ export default function PromoVideoGenerator() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Service Showcases</CardTitle>
+                <CardTitle className="text-lg text-white">
+                  Service Showcases
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground text-sm">

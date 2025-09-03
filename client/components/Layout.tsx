@@ -21,6 +21,7 @@ import {
   Cloud,
 } from "lucide-react";
 import { useState } from "react";
+import Spline from "@splinetool/react-spline";
 
 interface LayoutProps {
   children: ReactNode;
@@ -102,8 +103,18 @@ export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const isHome = location.pathname === "/";
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen w-full relative ${isHome ? 'bg-background' : ''}`}>
+      {!isHome && (
+        <div className="fixed inset-0 -z-10 w-full h-full">
+          <Spline
+            scene="https://prod.spline.design/mHxBByShoKLfoEba/scene.splinecode"
+            style={{ width: "100vw", height: "100vh" }}
+          />
+        </div>
+      )}
       <header className="border-b border-transparent bg-transparent backdrop-blur-none supports-[backdrop-filter]:bg-transparent sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
@@ -385,7 +396,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </header>
 
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 w-full">{children}</main>
 
       <footer className="border-t border-border/40 py-8 mt-16">
         <div className="container mx-auto px-4">

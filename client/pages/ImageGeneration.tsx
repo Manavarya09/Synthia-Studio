@@ -296,7 +296,7 @@ export default function ImageGeneration() {
                             variant="secondary"
                             size="sm"
                             onClick={() => downloadImage(imageUrl, index)}
-                            className="bg-white/20 backdrop-blur-sm hover:bg-white/30"
+                            className="bg-gray-900/40 backdrop-blur-sm hover:bg-gray-900/60"
                           >
                             <Download className="h-4 w-4 mr-2" />
                             Download

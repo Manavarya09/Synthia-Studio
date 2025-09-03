@@ -476,9 +476,9 @@ export default function NotesToSlides() {
                                 <div className="h-20 w-20 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
                                   {isPlayingAudio ? (
                                     <div className="flex space-x-1">
-                                      <div className="w-1 h-6 bg-white rounded animate-pulse"></div>
-                                      <div className="w-1 h-8 bg-white rounded animate-pulse delay-75"></div>
-                                      <div className="w-1 h-4 bg-white rounded animate-pulse delay-150"></div>
+                                      <div className="w-1 h-6 bg-gray-900/80 rounded animate-pulse"></div>
+                                      <div className="w-1 h-8 bg-gray-900/80 rounded animate-pulse delay-75"></div>
+                                      <div className="w-1 h-4 bg-gray-900/80 rounded animate-pulse delay-150"></div>
                                     </div>
                                   ) : (
                                     <Volume2 className="h-8 w-8 text-white" />
@@ -502,7 +502,7 @@ export default function NotesToSlides() {
                                 variant="ghost"
                                 size="lg"
                                 onClick={toggleAudio}
-                                className="h-14 w-14 rounded-full bg-white/20 hover:bg-white/30"
+                                className="h-14 w-14 rounded-full bg-gray-900/40 hover:bg-gray-900/60"
                               >
                                 {isPlayingAudio ? (
                                   <Pause className="h-6 w-6" />

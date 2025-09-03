@@ -136,7 +136,9 @@ export default function VideoGeneration() {
             <div className="h-12 w-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3">
               <Video className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold">Video Generation</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-white">
+              Video Generation
+            </h1>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Create engaging videos and visual stories with our advanced AI video

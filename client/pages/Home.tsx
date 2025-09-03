@@ -2,15 +2,103 @@ import Spline from "@splinetool/react-spline";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// HamburgerMenu Component
+const HamburgerMenu = ({ tools, selectedTool, setSelectedTool }) => {
+	const [open, setOpen] = useState(false);
+	const navigate = useNavigate();
+	return (
+		<>
+			<button
+				onClick={() => setOpen(true)}
+				className="fixed top-8 left-8 z-40 w-12 h-12 flex items-center justify-center rounded-full bg-gradient-to-br from-violet-700 to-fuchsia-600 shadow-lg hover:scale-105 transition-all duration-200 focus:outline-none"
+				aria-label="Open menu"
+			>
+				<svg
+					width="28"
+					height="28"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="white"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				>
+					<line x1="4" y1="7" x2="20" y2="7" />
+					<line x1="4" y1="12" x2="20" y2="12" />
+					<line x1="4" y1="17" x2="20" y2="17" />
+				</svg>
+			</button>
+			{open && (
+				<>
+					<div className="fixed top-0 left-0 h-full w-80 bg-gradient-to-br from-[#18181b] via-[#23232a] to-[#2e2e38] shadow-2xl border-r border-violet-600/40 p-8 flex flex-col gap-4 z-50 animate-slide-in overflow-y-auto max-h-screen">
+						<div className="flex justify-between items-center mb-6">
+							<span className="text-xl font-bold text-violet-400">Menu</span>
+							<button
+								onClick={() => setOpen(false)}
+								className="w-10 h-10 flex items-center justify-center rounded-full bg-[#23232a] text-violet-400 hover:bg-violet-600 hover:text-white transition-all duration-200"
+								aria-label="Close menu"
+							>
+								<svg
+									width="22"
+									height="22"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+								>
+									<line x1="18" y1="6" x2="6" y2="18" />
+									<line x1="6" y1="6" x2="18" y2="18" />
+								</svg>
+							</button>
+						</div>
+						<div className="flex flex-col gap-2">
+							{tools.map((tool) => (
+								<button
+									key={tool.value}
+									onClick={() => {
+										setSelectedTool(tool.value);
+										setOpen(false);
+										if (tool.page) navigate(tool.page);
+									}}
+									className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 active:scale-95 text-left ${
+										selectedTool === tool.value
+											? "bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white shadow-lg shadow-violet-500/30"
+											: "bg-gradient-to-r from-[#1e1e3f]/80 to-[#2a2a5a]/80 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-violet-600/70 hover:to-fuchsia-500/70 border border-violet-600/30 hover:border-violet-400/50"
+									}`}
+								>
+									<span className="text-lg">{tool.icon || "🔹"}</span>
+									<span className="text-base">{tool.label}</span>
+								</button>
+							))}
+						</div>
+					</div>
+					{/* Overlay to close menu when clicking outside, z-40 so sidebar stays above */}
+					<div
+						className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
+						onClick={() => setOpen(false)}
+					/>
+				</>
+			)}
+		</>
+	);
+};
+
 const TOOLS = [
-	{ label: "Text", value: "text", page: "/text" },
-	{ label: "Images", value: "images", page: "/images" },
-	{ label: "Videos", value: "videos", page: "/videos" },
-	{ label: "Audio", value: "audio", page: "/audio" },
-	{ label: "Social Posts", value: "social", page: "/social" },
-	{ label: "Promo Videos", value: "promo", page: "/promo-video" },
-	{ label: "Notes to Slides", value: "slides", page: "/notes-to-slides" },
-	{ label: "Team Collab", value: "collab", page: "/realtime-collab" },
+	{ label: "Home", value: "home", page: "/", icon: "🏠" },
+	{ label: "Projects", value: "projects", page: "/projects", icon: "📁" },
+	{ label: "Content Tools", value: "content", page: "/content-tools", icon: "🛠️" },
+	{ label: "Advanced", value: "advanced", page: "/advanced", icon: "⚙️" },
+	{ label: "Get Started", value: "get-started", page: "/get-started", icon: "🚀" },
+	{ label: "Text", value: "text", page: "/text", icon: "📝" },
+	{ label: "Images", value: "images", page: "/images", icon: "🖼️" },
+	{ label: "Videos", value: "videos", page: "/videos", icon: "🎥" },
+	{ label: "Audio", value: "audio", page: "/audio", icon: "🎵" },
+	{ label: "Social Posts", value: "social", page: "/social", icon: "💬" },
+	{ label: "Promo Videos", value: "promo", page: "/promo-video", icon: "🎬" },
+	{ label: "Notes to Slides", value: "slides", page: "/notes-to-slides", icon: "📑" },
+	{ label: "Team Collab", value: "collab", page: "/realtime-collab", icon: "🤝" },
 ];
 
 export default function Home() {
@@ -41,42 +129,101 @@ export default function Home() {
 			{/* Prompt Box Overlay */}
 			{showPrompt && (
 				<form
-					className="absolute left-1/2 bottom-24 transform -translate-x-1/2 w-[600px] max-w-full bg-[#18181b] bg-opacity-90 rounded-2xl shadow-lg border border-[#23232a] p-6 flex flex-col items-center z-20"
+					className="absolute left-1/2 bottom-24 transform -translate-x-1/2 w-[700px] max-w-[95vw] bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e] bg-opacity-95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-violet-500/40 p-6 flex flex-col items-center z-20 transition-all duration-300 hover:scale-[1.01] hover:shadow-violet-700/40 hover:border-violet-400/60"
 					onSubmit={handleSubmit}
 				>
-					<div className="w-full flex gap-2 mb-4">
-						<select
-							value={selectedTool}
-							onChange={(e) => setSelectedTool(e.target.value)}
-							className="px-4 py-3 rounded-xl bg-[#23232a] text-white focus:outline-none focus:ring-2 focus:ring-violet-500"
-						>
-							{TOOLS.map((tool) => (
-								<option key={tool.value} value={tool.value}>
-									{tool.label}
-								</option>
-							))}
-						</select>
-						<input
-							type="text"
-							value={input}
-							onChange={(e) => setInput(e.target.value)}
-							placeholder="Ask Fusion to build a full featured, production-read"
-							className="flex-1 px-4 py-3 rounded-xl bg-[#23232a] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500"
-						/>
+					{/* Header */}
+					<div className="w-full flex items-center justify-between mb-4">
+						<div className="flex items-center gap-2">
+							<div className="w-2 h-2 bg-violet-500 rounded-full animate-pulse"></div>
+							<span className="text-violet-300 text-sm font-medium">
+								AI Assistant
+							</span>
+						</div>
+						<div className="flex gap-1">
+							<div className="w-3 h-3 bg-red-400 rounded-full opacity-70"></div>
+							<div className="w-3 h-3 bg-yellow-400 rounded-full opacity-70"></div>
+							<div className="w-3 h-3 bg-green-400 rounded-full opacity-70"></div>
+						</div>
 					</div>
-					<div className="flex w-full justify-start gap-2">
+
+					{/* Input Section */}
+					<div className="w-full flex gap-4 mb-4">
+						{/* Enhanced Tool Selector */}
+						<div className="relative group">
+							<select
+								value={selectedTool}
+								onChange={(e) => setSelectedTool(e.target.value)}
+								className="appearance-none px-4 py-3 pr-10 rounded-2xl bg-gradient-to-r from-[#1e1e3f] to-[#2a2a5a] text-white font-medium focus:outline-none focus:ring-2 focus:ring-violet-400 border border-violet-600/50 shadow-lg transition-all duration-300 hover:border-violet-400 hover:shadow-violet-500/25 cursor-pointer min-w-[120px]"
+							>
+								{TOOLS.map((tool) => (
+									<option
+										key={tool.value}
+										value={tool.value}
+										className="bg-[#1e1e3f] text-white py-2"
+									>
+										{tool.label}
+									</option>
+								))}
+							</select>
+
+							{/* Custom dropdown arrow */}
+							<div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+								<svg
+									className="w-4 h-4 text-violet-300 group-hover:text-violet-200 transition-colors duration-200"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M19 9l-7 7-7-7"
+									/>
+								</svg>
+							</div>
+
+							{/* Glow effect */}
+							<div className="absolute inset-0 bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+						</div>
+
+						{/* Enhanced Input Field */}
+						<div className="flex-1 relative group">
+							<input
+								type="text"
+								value={input}
+								onChange={(e) => setInput(e.target.value)}
+								placeholder="How can I assist you today?"
+								className="w-full px-6 py-3 rounded-2xl bg-gradient-to-r from-[#1e1e3f]/80 to-[#2a2a5a]/80 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-400 border border-violet-600/50 shadow-lg transition-all duration-300 hover:border-violet-400 hover:shadow-violet-500/25 backdrop-blur-sm"
+							/>
+
+							{/* Input glow effect */}
+							<div className="absolute inset-0 bg-gradient-to-r from-violet-600/10 to-fuchsia-600/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+						</div>
+					</div>
+
+					{/* Button Section */}
+					<div className="flex w-full justify-end">
 						<button
 							type="submit"
-							className="px-4 py-2 rounded-lg bg-[#23232a] text-white border border-[#23232a] hover:bg-[#2e2e38] transition"
+							className="px-8 py-3 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-purple-600 text-white font-semibold shadow-lg border-none hover:from-violet-700 hover:via-fuchsia-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-all duration-300 hover:shadow-violet-500/40 hover:scale-105 active:scale-95 relative overflow-hidden group"
 						>
-							Send
-						</button>
-						<button className="px-4 py-2 rounded-lg bg-[#23232a] text-white border border-[#23232a] hover:bg-[#2e2e38] transition">
-							+ Attach
+							<span className="relative z-10">Send</span>
+							<div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out"></div>
 						</button>
 					</div>
+
+					{/* Bottom decoration */}
+					<div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-violet-400 to-transparent rounded-full"></div>
 				</form>
 			)}
+
+			<HamburgerMenu
+				tools={TOOLS}
+				selectedTool={selectedTool}
+				setSelectedTool={setSelectedTool}
+			/>
 		</div>
 	);
 }

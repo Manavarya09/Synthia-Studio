@@ -14,8 +14,8 @@ const NotFound = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-black text-white">
-      <h1 className="text-5xl font-bold mb-4">404</h1>
-      <p className="text-xl mb-8">Oops! Page not found</p>
+      <h1 className="text-5xl font-bold mb-4 text-white">404</h1>
+      <p className="text-xl mb-8 text-white">Oops! Page not found</p>
       <button
         onClick={() => navigate("/")}
         className="px-6 py-3 rounded-xl bg-violet-600 text-white font-semibold hover:bg-violet-700 transition"

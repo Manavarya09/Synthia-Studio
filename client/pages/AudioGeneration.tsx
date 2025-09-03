@@ -362,10 +362,10 @@ export default function AudioGeneration() {
                           <div className="h-24 w-24 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
                             {isPlaying ? (
                               <div className="flex space-x-1">
-                                <div className="w-1 h-8 bg-white rounded animate-pulse"></div>
-                                <div className="w-1 h-6 bg-white rounded animate-pulse delay-75"></div>
-                                <div className="w-1 h-10 bg-white rounded animate-pulse delay-150"></div>
-                                <div className="w-1 h-4 bg-white rounded animate-pulse delay-225"></div>
+                                <div className="w-1 h-8 bg-gray-900/80 rounded animate-pulse"></div>
+                                <div className="w-1 h-6 bg-gray-900/80 rounded animate-pulse delay-75"></div>
+                                <div className="w-1 h-10 bg-gray-900/80 rounded animate-pulse delay-150"></div>
+                                <div className="w-1 h-4 bg-gray-900/80 rounded animate-pulse delay-225"></div>
                               </div>
                             ) : (
                               <Mic className="h-10 w-10 text-white" />
@@ -391,7 +391,7 @@ export default function AudioGeneration() {
                             variant="ghost"
                             size="lg"
                             onClick={togglePlay}
-                            className="h-16 w-16 rounded-full bg-white/20 hover:bg-white/30"
+                            className="h-16 w-16 rounded-full bg-gray-900/40 hover:bg-gray-900/60"
                           >
                             {isPlaying ? (
                               <Pause className="h-8 w-8" />
@@ -407,9 +407,9 @@ export default function AudioGeneration() {
                             <span>{formatTime(currentTime)}</span>
                             <span>{formatTime(duration)}</span>
                           </div>
-                          <div className="w-full bg-white/20 rounded-full h-2">
+                          <div className="w-full bg-gray-900/40 rounded-full h-2">
                             <div
-                              className="bg-white rounded-full h-full transition-all duration-1000"
+                              className="bg-gray-900/80 rounded-full h-full transition-all duration-1000"
                               style={{
                                 width:
                                   duration > 0
