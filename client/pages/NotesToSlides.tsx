@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -97,6 +98,8 @@ interface GeneratedOutput {
 }
 
 export default function NotesToSlides() {
+  const location = useLocation();
+  const [prompt, setPrompt] = useState("");
   const [rawNotes, setRawNotes] = useState("");
   const [slideStyle, setSlideStyle] = useState("modern");
   const [voiceStyle, setVoiceStyle] = useState("neutral");
@@ -107,58 +110,51 @@ export default function NotesToSlides() {
   const [generatedOutput, setGeneratedOutput] =
     useState<GeneratedOutput | null>(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const promptParam = params.get("prompt");
+    if (promptParam) setPrompt(promptParam);
+  }, [location.search]);
 
   const handleGenerate = async () => {
     if (!rawNotes.trim()) return;
 
     setIsGenerating(true);
     setGenerationProgress(0);
+    setError(null);
 
-    const stages = [
-      "Analyzing and structuring notes...",
-      "Creating slide content...",
-      "Generating visual slides...",
-      "Creating narration script...",
-      "Generating audio narration...",
-      "Compiling final presentation...",
-    ];
-
-    for (let i = 0; i < stages.length; i++) {
-      setCurrentStage(stages[i]);
-
-      for (let progress = 0; progress <= 100; progress += 20) {
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        setGenerationProgress(
-          ((i * 100 + progress) / (stages.length * 100)) * 100,
-        );
+    try {
+      setCurrentStage("Sending notes to AI...");
+      const response = await fetch("/api/notes-to-slides", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ notes: rawNotes, slideStyle, voiceStyle, subject }),
+      });
+      if (!response.ok) throw new Error("API error: " + (await response.text()));
+      const data = await response.json();
+      console.log('Raw AI response:', data.content); // Debug log
+      let output;
+      try {
+        output = typeof data.content === "string" ? JSON.parse(data.content) : data.content;
+      } catch {
+        output = {
+          slides: [typeof data.content === "string" ? data.content : JSON.stringify(data.content)],
+          slideVisuals: [],
+          narrationAudio: "",
+          slidesPdf: "",
+          summary: "Could not parse AI response. See raw output above."
+        };
       }
-    }
-
-    // Generate mock output
-    const mockOutput: GeneratedOutput = {
-      slides: [
-        "# Introduction\n\n• Overview of key concepts\n• Learning objectives\n• Agenda for today",
-        "# Main Concept 1\n\n• Core principle explanation\n• Real-world applications\n• Benefits and advantages",
-        "# Main Concept 2\n\n• Technical details\n• Implementation strategies\n• Case studies",
-        "# Conclusion\n\n• Key takeaways\n• Next steps\n• Questions & Discussion",
-      ],
-      slideVisuals: [
-        "slide-1.jpg",
-        "slide-2.jpg",
-        "slide-3.jpg",
-        "slide-4.jpg",
-      ],
-      narrationAudio: "presentation-narration.mp3",
-      slidesPdf: "presentation-slides.pdf",
-      summary:
-        "This presentation covers the fundamental concepts derived from your notes, structured into a logical flow with clear learning objectives and actionable takeaways.",
-    };
-
-    setTimeout(() => {
-      setGeneratedOutput(mockOutput);
+      setGeneratedOutput(output);
       setIsGenerating(false);
       setCurrentStage("");
-    }, 1000);
+    } catch (err: any) {
+      setError(err.message || "Failed to generate presentation.");
+      setIsGenerating(false);
+      setCurrentStage("");
+    }
   };
 
   const downloadAsset = (assetType: string, filename: string) => {
@@ -319,6 +315,11 @@ export default function NotesToSlides() {
                     </>
                   )}
                 </Button>
+
+                {/* Error Message */}
+                {error && (
+                  <div className="text-red-500 text-center my-4">{error}</div>
+                )}
               </CardContent>
             </Card>
           </div>

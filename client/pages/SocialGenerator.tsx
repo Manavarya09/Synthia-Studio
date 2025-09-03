@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -57,6 +58,8 @@ const platforms = [
 ];
 
 export default function SocialGenerator() {
+  const location = useLocation();
+  const [prompt, setPrompt] = useState("");
   const [industryType, setIndustryType] = useState("");
   const [productService, setProductService] = useState("");
   const [tone, setTone] = useState("promotional");
@@ -68,6 +71,12 @@ export default function SocialGenerator() {
     caption: "",
     hashtags: [],
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const promptParam = params.get("prompt");
+    if (promptParam) setPrompt(promptParam);
+  }, [location.search]);
 
   const handleGenerate = async () => {
     if (!industryType || !productService) return;

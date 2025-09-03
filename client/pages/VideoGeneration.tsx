@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -52,7 +53,17 @@ const resolutions = [
   { value: "2160p", label: "4K (2160p)" },
 ];
 
+// Map resolution names to exact DashScope size strings
+const resolutionMap: Record<string, string> = {
+  "480p": "832×480",
+  "720p": "1280×720",
+  "1080p": "1920×1080",
+  "1440p": "1440×1440",
+  "2160p": "3840×2160",
+};
+
 export default function VideoGeneration() {
+  const location = useLocation();
   const [prompt, setPrompt] = useState("");
   const [videoType, setVideoType] = useState("");
   const [duration, setDuration] = useState("30");
@@ -62,22 +73,48 @@ export default function VideoGeneration() {
   const [generatedVideo, setGeneratedVideo] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const promptParam = params.get("prompt");
+    if (promptParam) setPrompt(promptParam);
+  }, [location.search]);
+
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
 
     setIsGenerating(true);
+    setGeneratedVideo(null);
 
-    // Simulate API call
-    setTimeout(() => {
-      // Generate a placeholder video (using a sample video or placeholder)
-      const placeholderVideo = "data:video/mp4;base64,"; // This would be a real video in production
-      setGeneratedVideo("placeholder-video.mp4");
+    try {
+      const size = resolutionMap[resolution] || "1280×720"; // map to exact size
+
+      const res = await fetch("/api/generate-video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt,
+          videoType,
+          duration: Number(duration),
+          resolution: size, // send size string
+          fps: fps[0],
+        }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || `Request failed: ${res.status}`);
+      }
+
+      const data: { videoUrl: string; model: string } = await res.json();
+      setGeneratedVideo(data.videoUrl);
+    } catch (err) {
+      setGeneratedVideo("error");
+    } finally {
       setIsGenerating(false);
-    }, 5000);
+    }
   };
 
   const downloadVideo = () => {
-    // In a real app, this would download the actual generated video
     const link = document.createElement("a");
     link.href = "#";
     link.download = "generated-video.mp4";
@@ -253,37 +290,19 @@ export default function VideoGeneration() {
                     </div>
                   </div>
                 ) : generatedVideo ? (
-                  <div className="relative bg-black rounded-lg overflow-hidden">
-                    <div className="aspect-video bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
-                      <div className="text-center text-white">
-                        <Video className="h-16 w-16 mx-auto mb-4" />
-                        <p className="text-lg font-semibold">
-                          Generated Video Preview
-                        </p>
-                        <p className="text-sm opacity-75">
-                          Duration: {duration}s | Resolution: {resolution}
-                        </p>
-                      </div>
+                  generatedVideo === "error" ? (
+                    <div className="text-center py-16 text-red-600">
+                      Failed to generate video. Please try again.
                     </div>
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between bg-black/50 backdrop-blur-sm rounded-lg p-3">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={togglePlay}
-                        className="text-white hover:bg-white/20"
-                      >
-                        {isPlaying ? (
-                          <Pause className="h-5 w-5" />
-                        ) : (
-                          <Play className="h-5 w-5" />
-                        )}
-                      </Button>
-                      <div className="flex-1 mx-4 bg-white/20 rounded-full h-2">
-                        <div className="bg-white rounded-full h-full w-1/3"></div>
-                      </div>
-                      <span className="text-white text-sm">0:{duration}</span>
+                  ) : (
+                    <div className="relative bg-black rounded-lg overflow-hidden">
+                      <video
+                        src={generatedVideo}
+                        controls
+                        className="w-full aspect-video"
+                      />
                     </div>
-                  </div>
+                  )
                 ) : (
                   <div className="text-center py-32 text-muted-foreground">
                     <Video className="h-20 w-20 mx-auto mb-4 opacity-50" />

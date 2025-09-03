@@ -21,7 +21,9 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "dotenv": "^17.2.1",
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^1.10.55",
+    "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "zod": "^3.25.76"
   },

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -53,7 +54,17 @@ const aspectRatios = [
   { value: "3:2", label: "Photo (3:2)" },
 ];
 
+// Map user-friendly aspect ratios to DashScope allowed sizes
+const ASPECT_RATIO_TO_SIZE: Record<string, string> = {
+  "1:1": "1328*1328",
+  "16:9": "1664*928",
+  "9:16": "928*1664",
+  "4:3": "1472*1140",
+  "3:2": "1140*1472",
+};
+
 export default function ImageGeneration() {
+  const location = useLocation();
   const [prompt, setPrompt] = useState("");
   const [imageType, setImageType] = useState("");
   const [style, setStyle] = useState("");
@@ -62,65 +73,56 @@ export default function ImageGeneration() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const promptParam = params.get("prompt");
+    if (promptParam) setPrompt(promptParam);
+  }, [location.search]);
+
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
 
     setIsGenerating(true);
+    setGeneratedImages([]);
 
-    // Simulate API call
-    setTimeout(() => {
-      // Generate placeholder images with different gradients
-      const placeholderImages = [
-        "data:image/svg+xml;base64," +
-          btoa(`
-          <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-            <rect width="400" height="400" fill="url(#grad1)" />
-            <text x="200" y="200" text-anchor="middle" fill="white" font-size="16" font-family="Arial">AI Generated Image 1</text>
-          </svg>
-        `),
-        "data:image/svg+xml;base64," +
-          btoa(`
-          <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#F97316;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-            <rect width="400" height="400" fill="url(#grad2)" />
-            <text x="200" y="200" text-anchor="middle" fill="white" font-size="16" font-family="Arial">AI Generated Image 2</text>
-          </svg>
-        `),
-        "data:image/svg+xml;base64=" +
-          btoa(`
-          <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-            <rect width="400" height="400" fill="url(#grad3)" />
-            <text x="200" y="200" text-anchor="middle" fill="white" font-size="16" font-family="Arial">AI Generated Image 3</text>
-          </svg>
-        `),
-      ];
+    try {
+      const res = await fetch("/api/generate-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt,
+          imageType,
+          style,
+          // Map the aspect ratio to DashScope size
+          aspectRatio: ASPECT_RATIO_TO_SIZE[aspectRatio] || "1328*1328",
+          quality: quality[0],
+        }),
+      });
 
-      setGeneratedImages(placeholderImages);
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || `Request failed: ${res.status}`);
+      }
+
+      const data: { images: string[]; model: string } = await res.json();
+      setGeneratedImages(data.images);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      setGeneratedImages([
+        "data:image/svg+xml;base64," +
+          btoa(
+            "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'><rect width='100%' height='100%' fill='#fee2e2'/><text x='20' y='110' font-family='Arial' font-size='14' fill='#991b1b'>Error generating images</text></svg>",
+          ),
+      ]);
+    } finally {
       setIsGenerating(false);
-    }, 3000);
+    }
   };
 
   const downloadImage = (imageUrl: string, index: number) => {
     const link = document.createElement("a");
     link.href = imageUrl;
-    link.download = `generated-image-${index + 1}.svg`;
+    link.download = "generated-image-" + (index + 1) + ".svg";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

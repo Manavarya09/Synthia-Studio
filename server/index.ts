@@ -3,6 +3,10 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleQwenText } from "./routes/qwen-text";
+import { handleQwenImage } from "./routes/qwen-image";
+import { handleQwenVideo } from "./routes/qwen-video";
+import { handleQwenAudio } from "./routes/qwen-audio";
+import notesToSlidesRouter from "./routes/notes-to-slides";
 
 export function createServer() {
   const app = express();
@@ -20,6 +24,10 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
   app.post("/api/generate-text", handleQwenText);
+  app.post("/api/generate-image", handleQwenImage);
+  app.post("/api/generate-video", handleQwenVideo);
+  app.post("/api/generate-audio", handleQwenAudio);
+  app.use("/api", notesToSlidesRouter);
 
   return app;
 }

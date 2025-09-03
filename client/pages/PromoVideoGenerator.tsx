@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -96,6 +97,8 @@ interface GenerationStage {
 }
 
 export default function PromoVideoGenerator() {
+  const location = useLocation();
+  const [prompt, setPrompt] = useState("");
   const [script, setScript] = useState("");
   const [visualTheme, setVisualTheme] = useState("corporate");
   const [duration, setDuration] = useState(20);
@@ -143,6 +146,12 @@ export default function PromoVideoGenerator() {
   ];
 
   const [stages, setStages] = useState(generationStages);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const promptParam = params.get("prompt");
+    if (promptParam) setPrompt(promptParam);
+  }, [location.search]);
 
   const handleGenerate = async () => {
     if (!script.trim()) return;

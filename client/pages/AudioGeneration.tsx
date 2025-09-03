@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -57,6 +58,8 @@ const languages = [
 ];
 
 export default function AudioGeneration() {
+  const location = useLocation();
+  const [prompt, setPrompt] = useState("");
   const [text, setText] = useState("");
   const [audioType, setAudioType] = useState("");
   const [voice, setVoice] = useState("");
@@ -69,24 +72,57 @@ export default function AudioGeneration() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const promptParam = params.get("prompt");
+    if (promptParam) setPrompt(promptParam);
+  }, [location.search]);
+
+  useEffect(() => {
+    setText(prompt);
+  }, [prompt]);
+
   const handleGenerate = async () => {
     if (!text.trim()) return;
 
     setIsGenerating(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      // In a real app, this would be the actual generated audio file
-      setGeneratedAudio("generated-audio.mp3");
-      setDuration(Math.floor(text.length / 10)); // Simulate duration based on text length
+    setGeneratedAudio(null);
+    try {
+      const res = await fetch("/api/generate-audio", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text,
+          audioType,
+          voice,
+          language,
+          speed: speed[0],
+          pitch: pitch[0],
+        }),
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        throw new Error(t || `Request failed: ${res.status}`);
+      }
+      const data: { audioUrl: string; model: string } = await res.json();
+      setGeneratedAudio(data.audioUrl);
+      setTimeout(() => {
+        const el = document.getElementById(
+          "generated-audio-el",
+        ) as HTMLAudioElement | null;
+        el?.load();
+      }, 0);
+    } catch (err) {
+      setGeneratedAudio("error");
+    } finally {
       setIsGenerating(false);
-    }, 3000);
+    }
   };
 
   const downloadAudio = () => {
-    // In a real app, this would download the actual generated audio
+    if (!generatedAudio || generatedAudio === "error") return;
     const link = document.createElement("a");
-    link.href = "#";
+    link.href = generatedAudio;
     link.download = "generated-audio.mp3";
     document.body.appendChild(link);
     link.click();
@@ -94,19 +130,18 @@ export default function AudioGeneration() {
   };
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
-    if (!isPlaying) {
-      // Simulate audio playing
-      const interval = setInterval(() => {
-        setCurrentTime((prev) => {
-          if (prev >= duration) {
-            setIsPlaying(false);
-            clearInterval(interval);
-            return duration;
-          }
-          return prev + 1;
-        });
-      }, 1000);
+    if (!generatedAudio || generatedAudio === "error") return;
+    const el = document.getElementById(
+      "generated-audio-el",
+    ) as HTMLAudioElement | null;
+    if (!el) return;
+    if (isPlaying) {
+      el.pause();
+      setIsPlaying(false);
+    } else {
+      el.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
     }
   };
 
@@ -299,6 +334,27 @@ export default function AudioGeneration() {
                   </div>
                 ) : generatedAudio ? (
                   <div className="space-y-6">
+                    <audio
+                      id="generated-audio-el"
+                      src={generatedAudio || undefined}
+                      onLoadedMetadata={(e) =>
+                        setDuration(
+                          Math.floor(
+                            (e.currentTarget as HTMLAudioElement).duration || 0,
+                          ),
+                        )
+                      }
+                      onTimeUpdate={(e) =>
+                        setCurrentTime(
+                          Math.floor(
+                            (e.currentTarget as HTMLAudioElement).currentTime ||
+                              0,
+                          ),
+                        )
+                      }
+                      onEnded={() => setIsPlaying(false)}
+                      className="hidden"
+                    />
                     {/* Audio Player */}
                     <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-lg p-6">
                       <div className="flex items-center justify-center mb-6">

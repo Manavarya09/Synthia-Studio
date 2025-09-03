@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -66,6 +67,8 @@ interface AISuggestion {
 }
 
 export default function RealTimeCollab() {
+  const location = useLocation();
+  const [prompt, setPrompt] = useState("");
   const [content, setContent] = useState(`# Product Launch Strategy
 
 ## Executive Summary
@@ -265,6 +268,12 @@ We project 10,000 sign-ups in the first quarter and $500K ARR by year-end.`);
   const handleSaveVersion = () => {
     console.log("Saving new version...");
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const promptParam = params.get("prompt");
+    if (promptParam) setPrompt(promptParam);
+  }, [location.search]);
 
   return (
     <div className="min-h-screen py-8">
@@ -563,7 +572,7 @@ We project 10,000 sign-ups in the first quarter and $500K ARR by year-end.`);
                             {version.authorType === "ai" ? (
                               <Brain className="h-3 w-3 mr-1" />
                             ) : (
-                              <User className="h-3 w-3 mr-1" />
+                              <Users className="h-3 w-3 mr-1" />
                             )}
                             {version.author}
                           </Badge>

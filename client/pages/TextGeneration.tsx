@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -45,11 +46,18 @@ const tones = [
 ];
 
 export default function TextGeneration() {
+  const location = useLocation();
   const [prompt, setPrompt] = useState("");
   const [contentType, setContentType] = useState("");
   const [tone, setTone] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const promptParam = params.get("prompt");
+    if (promptParam) setPrompt(promptParam);
+  }, [location.search]);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
