@@ -193,12 +193,7 @@ export default function NotesToSlides() {
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="flex items-center justify-center mb-4">
-            <div className="h-12 w-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center mr-3">
-              <Presentation className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold">Notes to Slides</h1>
-          </div>
+          <h1 className="text-3xl md:text-4xl font-bold text-white">Notes to Slides</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Transform your raw notes into professional presentations with slide
             visuals and narrated audio
@@ -211,7 +206,7 @@ export default function NotesToSlides() {
         <div className="grid lg:grid-cols-5 gap-8">
           {/* Settings Panel */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="h-full flex flex-col">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Settings className="h-5 w-5 mr-2" />
@@ -221,7 +216,7 @@ export default function NotesToSlides() {
                   Configure your notes conversion parameters
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-6 flex-1 flex flex-col justify-between">
                 {/* Notes Input */}
                 <div className="space-y-2">
                   <Label htmlFor="notes">Notes</Label>
@@ -311,8 +306,8 @@ export default function NotesToSlides() {
           </div>
 
           {/* Output Panel */}
-          <div className="lg:col-span-3">
-            <Card>
+          <div className="lg:col-span-3 flex items-stretch">
+            <Card className="w-full flex flex-col h-full">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span className="flex items-center">
@@ -330,9 +325,9 @@ export default function NotesToSlides() {
                   Your multi-modal presentation will appear here
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-1 lg:h-[420px] flex flex-col justify-between overflow-hidden">
                 {isGenerating ? (
-                  <div className="w-full h-[300px] flex items-center justify-center relative">
+                  <div className="absolute inset-0 w-full h-full flex items-center justify-center z-50 bg-black bg-opacity-80 rounded-md">
                     <StarLoading />
                   </div>
                 ) : generatedOutput ? (
