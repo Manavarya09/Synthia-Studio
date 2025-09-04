@@ -28,3 +28,4 @@ dist-ssr
 
 # Vite build cache
 .vite/
+node_modules/
