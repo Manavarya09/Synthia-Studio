@@ -27,6 +27,7 @@ import {
   Settings,
   Palette,
 } from "lucide-react";
+import StarLoading from "@/components/ui/StarLoading";
 
 const imageTypes = [
   { value: "social-media", label: "Social Media Graphics" },
@@ -163,27 +164,32 @@ export default function ImageGeneration() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Prompt Input */}
                 <div className="space-y-2">
-                  <Label htmlFor="prompt">Describe Your Image</Label>
+                  <Label htmlFor="prompt">Your Prompt</Label>
                   <Textarea
                     id="prompt"
-                    placeholder="Describe the image you want to create... (e.g., 'A modern office workspace with plants and natural lighting')"
+                    placeholder="Describe your image..."
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    rows={4}
-                    className="resize-none"
+                    rows={6}
+                    className="resize-none bg-gray-800 bg-opacity-60 text-white placeholder:text-gray-300 border-none shadow-none"
                   />
                 </div>
-
+                {/* Image Type */}
                 <div className="space-y-2">
                   <Label htmlFor="image-type">Image Type</Label>
                   <Select value={imageType} onValueChange={setImageType}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
                       <SelectValue placeholder="Select image type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
                       {imageTypes.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
+                        <SelectItem
+                          key={type.value}
+                          value={type.value}
+                          className="text-white bg-transparent hover:bg-gray-700/60"
+                        >
                           {type.label}
                         </SelectItem>
                       ))}
@@ -194,14 +200,15 @@ export default function ImageGeneration() {
                 <div className="space-y-2">
                   <Label htmlFor="style">Style</Label>
                   <Select value={style} onValueChange={setStyle}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
                       <SelectValue placeholder="Select style" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
                       {styles.map((styleOption) => (
                         <SelectItem
                           key={styleOption.value}
                           value={styleOption.value}
+                          className="text-white bg-transparent hover:bg-gray-700/60"
                         >
                           {styleOption.label}
                         </SelectItem>
@@ -274,13 +281,8 @@ export default function ImageGeneration() {
               </CardHeader>
               <CardContent>
                 {isGenerating ? (
-                  <div className="flex items-center justify-center py-24">
-                    <div className="text-center">
-                      <RefreshCw className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
-                      <p className="text-muted-foreground">
-                        Creating your images...
-                      </p>
-                    </div>
+                  <div className="w-full h-[300px] flex items-center justify-center relative">
+                    <StarLoading />
                   </div>
                 ) : generatedImages.length > 0 ? (
                   <div className="grid md:grid-cols-2 gap-4">
@@ -306,11 +308,9 @@ export default function ImageGeneration() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-24 text-muted-foreground">
-                    <Image className="h-16 w-16 mx-auto mb-4 opacity-50" />
+                  <div className="text-center py-12 text-muted-foreground">
                     <p>
-                      Enter your prompt and click "Generate Images" to see your
-                      AI-created visuals here
+                      Enter your prompt and click "Generate Images" to see your AI-created images here
                     </p>
                   </div>
                 )}

@@ -33,6 +33,7 @@ import {
   Eye,
   BookOpen,
 } from "lucide-react";
+import StarLoading from "@/components/ui/StarLoading";
 
 const slideStyles = [
   {
@@ -222,32 +223,29 @@ export default function NotesToSlides() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Notes Input */}
                 <div className="space-y-2">
-                  <Label htmlFor="notes">Raw Notes *</Label>
+                  <Label htmlFor="notes">Notes</Label>
                   <Textarea
                     id="notes"
-                    placeholder="Paste your notes here... (e.g., meeting notes, research findings, study materials, lecture content)"
+                    placeholder="Paste your notes here..."
                     value={rawNotes}
                     onChange={(e) => setRawNotes(e.target.value)}
-                    rows={8}
-                    className="resize-none"
+                    rows={6}
+                    className="resize-none bg-gray-800 bg-opacity-60 text-white placeholder:text-gray-300 border-none shadow-none"
                   />
-                  <div className="text-xs text-muted-foreground">
-                    {rawNotes.length} characters (~
-                    {Math.ceil(rawNotes.split("\n").length / 2)} estimated
-                    slides)
-                  </div>
                 </div>
 
+                {/* Subject Select */}
                 <div className="space-y-2">
                   <Label htmlFor="subject">Subject Area</Label>
                   <Select value={subject} onValueChange={setSubject}>
-                    <SelectTrigger>
-                      <SelectValue />
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
+                      <SelectValue placeholder="Select subject area" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
                       {subjects.map((subj) => (
-                        <SelectItem key={subj.value} value={subj.value}>
+                        <SelectItem key={subj.value} value={subj.value} className="text-white bg-transparent hover:bg-gray-700/60">
                           {subj.label}
                         </SelectItem>
                       ))}
@@ -255,42 +253,34 @@ export default function NotesToSlides() {
                   </Select>
                 </div>
 
+                {/* Style Select */}
                 <div className="space-y-2">
                   <Label htmlFor="slide-style">Slide Style</Label>
                   <Select value={slideStyle} onValueChange={setSlideStyle}>
-                    <SelectTrigger>
-                      <SelectValue />
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
+                      <SelectValue placeholder="Select slide style" />
                     </SelectTrigger>
-                    <SelectContent>
-                      {slideStyles.map((style) => (
-                        <SelectItem key={style.value} value={style.value}>
-                          <div>
-                            <div className="font-medium">{style.label}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {style.description}
-                            </div>
-                          </div>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
+                      {slideStyles.map((styleOption) => (
+                        <SelectItem key={styleOption.value} value={styleOption.value} className="text-white bg-transparent hover:bg-gray-700/60">
+                          {styleOption.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
 
+                {/* Voice Select */}
                 <div className="space-y-2">
                   <Label htmlFor="voice-style">Narration Voice</Label>
                   <Select value={voiceStyle} onValueChange={setVoiceStyle}>
-                    <SelectTrigger>
-                      <SelectValue />
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
+                      <SelectValue placeholder="Select voice style" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
                       {voiceStyles.map((voice) => (
-                        <SelectItem key={voice.value} value={voice.value}>
-                          <div>
-                            <div className="font-medium">{voice.label}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {voice.description}
-                            </div>
-                          </div>
+                        <SelectItem key={voice.value} value={voice.value} className="text-white bg-transparent hover:bg-gray-700/60">
+                          {voice.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -346,21 +336,8 @@ export default function NotesToSlides() {
               </CardHeader>
               <CardContent>
                 {isGenerating ? (
-                  <div className="space-y-6">
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Conversion Progress</span>
-                        <span>{Math.round(generationProgress)}%</span>
-                      </div>
-                      <Progress value={generationProgress} className="h-2" />
-                    </div>
-
-                    {currentStage && (
-                      <div className="bg-muted/50 rounded-lg p-4 text-center">
-                        <RefreshCw className="h-8 w-8 animate-spin text-primary mx-auto mb-2" />
-                        <p className="text-sm font-medium">{currentStage}</p>
-                      </div>
-                    )}
+                  <div className="w-full h-[300px] flex items-center justify-center relative">
+                    <StarLoading />
                   </div>
                 ) : generatedOutput ? (
                   <Tabs defaultValue="slides" className="w-full">
@@ -575,11 +552,9 @@ export default function NotesToSlides() {
                     </TabsContent>
                   </Tabs>
                 ) : (
-                  <div className="text-center py-32 text-muted-foreground">
-                    <Presentation className="h-20 w-20 mx-auto mb-4 opacity-50" />
-                    <p className="text-lg">
-                      Paste your notes and click "Convert to Presentation" to
-                      generate your multi-modal presentation
+                  <div className="text-center py-12 text-muted-foreground">
+                    <p>
+                      Enter your notes and click "Generate Slides" to see your AI-created slides here
                     </p>
                   </div>
                 )}

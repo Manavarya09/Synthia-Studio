@@ -26,6 +26,7 @@ import {
   RefreshCw,
   Settings,
 } from "lucide-react";
+import StarLoading from "@/components/ui/StarLoading";
 
 const contentTypes = [
   { value: "social-post", label: "Social Media Post" },
@@ -102,29 +103,24 @@ export default function TextGeneration() {
   };
 
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen py-16"> {/* Increased top/bottom padding from py-8 to py-16 */}
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="flex items-center justify-center mb-4">
-            <div className="h-12 w-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
-              <PenTool className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-white">
-              Text Generation
-            </h1>
-          </div>
-          <span className="text-white">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Text Generation
+          </h1>
+          <span className="text-white block mb-4">
             Create compelling content with our advanced AI text generation
           </span>
-          <Badge variant="secondary" className="mt-4">
-            <Sparkles className="h-3 w-3 mr-1" />
+          <Badge variant="secondary" className="inline-block mb-2">
             Powered by Qwen-Max
           </Badge>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Input Section */}
+          
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
@@ -136,41 +132,7 @@ export default function TextGeneration() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="content-type">Content Type</Label>
-                <Select value={contentType} onValueChange={setContentType}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select content type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {contentTypes.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
-                        {type.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="tone">Tone & Style</Label>
-                <Select value={tone} onValueChange={setTone}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select tone" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {tones.map((toneOption) => (
-                      <SelectItem
-                        key={toneOption.value}
-                        value={toneOption.value}
-                      >
-                        {toneOption.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
+              {/* Move Your Prompt input to the top */}
               <div className="space-y-2">
                 <Label htmlFor="prompt">Your Prompt</Label>
                 <Textarea
@@ -179,8 +141,44 @@ export default function TextGeneration() {
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   rows={6}
-                  className="resize-none"
+                  className="resize-none bg-gray-800 bg-opacity-60 text-white placeholder:text-gray-300 border-none shadow-none"
                 />
+              </div>
+              {/* Content Type */}
+              <div className="space-y-2">
+                <Label htmlFor="content-type">Content Type</Label>
+                <Select value={contentType} onValueChange={setContentType}>
+                  <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
+                    <SelectValue placeholder="Select content type" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
+                    {contentTypes.map((type) => (
+                      <SelectItem key={type.value} value={type.value} className="text-white bg-transparent hover:bg-gray-700/60">
+                        {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              {/* Tone & Style */}
+              <div className="space-y-2">
+                <Label htmlFor="tone">Tone & Style</Label>
+                <Select value={tone} onValueChange={setTone}>
+                  <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
+                    <SelectValue placeholder="Select tone" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
+                    {tones.map((toneOption) => (
+                      <SelectItem
+                        key={toneOption.value}
+                        value={toneOption.value}
+                        className="text-white bg-transparent hover:bg-gray-700/60"
+                      >
+                        {toneOption.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <Button
@@ -215,16 +213,18 @@ export default function TextGeneration() {
                       variant="outline"
                       size="sm"
                       onClick={copyToClipboard}
+                      className="bg-black text-white border-white"
                     >
-                      <Copy className="h-4 w-4 mr-1" />
+                      <Copy className="h-4 w-4 mr-1 text-white" />
                       Copy
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={downloadContent}
+                      className="bg-black text-white border-white"
                     >
-                      <Download className="h-4 w-4 mr-1" />
+                      <Download className="h-4 w-4 mr-1 text-white" />
                       Download
                     </Button>
                   </div>
@@ -236,18 +236,17 @@ export default function TextGeneration() {
             </CardHeader>
             <CardContent>
               {isGenerating ? (
-                <div className="flex items-center justify-center py-12">
-                  <RefreshCw className="h-8 w-8 animate-spin text-primary" />
+                <div className="w-full h-[300px] flex items-center justify-center relative">
+                  <StarLoading />
                 </div>
               ) : generatedContent ? (
-                <div className="bg-muted/50 rounded-lg p-4">
-                  <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans">
+                <div className="rounded-lg p-4 bg-black bg-opacity-40">
+                  <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans text-white">
                     {generatedContent}
                   </pre>
                 </div>
               ) : (
                 <div className="text-center py-12 text-muted-foreground">
-                  <PenTool className="h-12 w-12 mx-auto mb-4 opacity-50" />
                   <p>
                     Enter your prompt and click "Generate Content" to see your
                     AI-created text here

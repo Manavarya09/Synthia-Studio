@@ -28,6 +28,7 @@ import {
   Play,
   Pause,
 } from "lucide-react";
+import StarLoading from "@/components/ui/StarLoading";
 
 const videoTypes = [
   { value: "promo", label: "Promotional Video" },
@@ -164,27 +165,32 @@ export default function VideoGeneration() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Prompt Input */}
                 <div className="space-y-2">
-                  <Label htmlFor="prompt">Describe Your Video</Label>
+                  <Label htmlFor="prompt">Your Prompt</Label>
                   <Textarea
                     id="prompt"
-                    placeholder="Describe the video you want to create... (e.g., 'A promotional video showcasing modern office tools with smooth transitions')"
+                    placeholder="Describe your video..."
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    rows={4}
-                    className="resize-none"
+                    rows={6}
+                    className="resize-none bg-gray-800 bg-opacity-60 text-white placeholder:text-gray-300 border-none shadow-none"
                   />
                 </div>
-
+                {/* Video Type */}
                 <div className="space-y-2">
                   <Label htmlFor="video-type">Video Type</Label>
                   <Select value={videoType} onValueChange={setVideoType}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
                       <SelectValue placeholder="Select video type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
                       {videoTypes.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
+                        <SelectItem
+                          key={type.value}
+                          value={type.value}
+                          className="text-white bg-transparent hover:bg-gray-700/60"
+                        >
                           {type.label}
                         </SelectItem>
                       ))}
@@ -280,16 +286,8 @@ export default function VideoGeneration() {
               </CardHeader>
               <CardContent>
                 {isGenerating ? (
-                  <div className="flex items-center justify-center py-32">
-                    <div className="text-center">
-                      <RefreshCw className="h-16 w-16 animate-spin text-primary mx-auto mb-4" />
-                      <p className="text-muted-foreground text-lg">
-                        Creating your video...
-                      </p>
-                      <p className="text-sm text-muted-foreground mt-2">
-                        This may take a few minutes
-                      </p>
-                    </div>
+                  <div className="w-full h-[300px] flex items-center justify-center relative">
+                    <StarLoading />
                   </div>
                 ) : generatedVideo ? (
                   generatedVideo === "error" ? (
@@ -306,10 +304,9 @@ export default function VideoGeneration() {
                     </div>
                   )
                 ) : (
-                  <div className="text-center py-32 text-muted-foreground">
-                    <Video className="h-20 w-20 mx-auto mb-4 opacity-50" />
-                    <p className="text-lg">
-                      Enter your prompt and click "Generate Video" to see your
+                  <div className="text-center py-12 text-muted-foreground">
+                    <p>
+                      Enter your prompt and click "Generate Content" to see your
                       AI-created video here
                     </p>
                   </div>

@@ -29,6 +29,7 @@ import {
   Pause,
   Volume2,
 } from "lucide-react";
+import StarLoading from "@/components/ui/StarLoading";
 
 const audioTypes = [
   { value: "narration", label: "Video Narration" },
@@ -186,31 +187,32 @@ export default function AudioGeneration() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Prompt Input */}
                 <div className="space-y-2">
-                  <Label htmlFor="text">Text to Convert</Label>
+                  <Label htmlFor="prompt">Your Prompt</Label>
                   <Textarea
-                    id="text"
-                    placeholder="Enter the text you want to convert to speech... (e.g., 'Welcome to our innovative platform where creativity meets technology')"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    id="prompt"
+                    placeholder="Describe your audio..."
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
                     rows={6}
-                    className="resize-none"
+                    className="resize-none bg-gray-800 bg-opacity-60 text-white placeholder:text-gray-300 border-none shadow-none"
                   />
-                  <div className="text-xs text-muted-foreground">
-                    {text.length} characters (~{Math.ceil(text.length / 10)}{" "}
-                    seconds)
-                  </div>
                 </div>
-
+                {/* Audio Type */}
                 <div className="space-y-2">
                   <Label htmlFor="audio-type">Audio Type</Label>
                   <Select value={audioType} onValueChange={setAudioType}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
                       <SelectValue placeholder="Select audio type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
                       {audioTypes.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
+                        <SelectItem
+                          key={type.value}
+                          value={type.value}
+                          className="text-white bg-transparent hover:bg-gray-700/60"
+                        >
                           {type.label}
                         </SelectItem>
                       ))}
@@ -321,16 +323,8 @@ export default function AudioGeneration() {
               </CardHeader>
               <CardContent>
                 {isGenerating ? (
-                  <div className="flex items-center justify-center py-24">
-                    <div className="text-center">
-                      <RefreshCw className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
-                      <p className="text-muted-foreground text-lg">
-                        Generating your audio...
-                      </p>
-                      <p className="text-sm text-muted-foreground mt-2">
-                        Processing speech synthesis
-                      </p>
-                    </div>
+                  <div className="w-full h-[300px] flex items-center justify-center relative">
+                    <StarLoading />
                   </div>
                 ) : generatedAudio ? (
                   <div className="space-y-6">
@@ -442,11 +436,10 @@ export default function AudioGeneration() {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-24 text-muted-foreground">
-                    <Mic className="h-20 w-20 mx-auto mb-4 opacity-50" />
-                    <p className="text-lg">
-                      Enter your text and click "Generate Audio" to hear your
-                      AI-created speech
+                  <div className="text-center py-12 text-muted-foreground">
+                    <p>
+                      Enter your prompt and click "Generate Content" to see your
+                      AI-created audio here
                     </p>
                   </div>
                 )}

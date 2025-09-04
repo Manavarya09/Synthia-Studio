@@ -5,12 +5,15 @@ import { useNavigate } from "react-router-dom";
 // HamburgerMenu Component
 const HamburgerMenu = ({ tools, selectedTool, setSelectedTool }) => {
 	const [open, setOpen] = useState(false);
+	const [contentOpen, setContentOpen] = useState(false);
+	const [advancedOpen, setAdvancedOpen] = useState(false);
+	const [creatorOpen, setCreatorOpen] = useState(false);
 	const navigate = useNavigate();
 	return (
 		<>
 			<button
 				onClick={() => setOpen(true)}
-				className="fixed top-8 left-8 z-40 w-12 h-12 flex items-center justify-center rounded-full bg-gradient-to-br from-violet-700 to-fuchsia-600 shadow-lg hover:scale-105 transition-all duration-200 focus:outline-none"
+				className="fixed top-8 left-8 z-40 w-12 h-12 flex items-center justify-center rounded-full bg-transparent shadow-lg hover:scale-105 transition-all duration-200 focus:outline-none"
 				aria-label="Open menu"
 			>
 				<svg
@@ -18,7 +21,7 @@ const HamburgerMenu = ({ tools, selectedTool, setSelectedTool }) => {
 					height="28"
 					viewBox="0 0 24 24"
 					fill="none"
-					stroke="white"
+					stroke="#a78bfa" // Tailwind violet-400
 					strokeWidth="2"
 					strokeLinecap="round"
 					strokeLinejoin="round"
@@ -30,7 +33,7 @@ const HamburgerMenu = ({ tools, selectedTool, setSelectedTool }) => {
 			</button>
 			{open && (
 				<>
-					<div className="fixed top-0 left-0 h-full w-80 bg-gradient-to-br from-[#18181b] via-[#23232a] to-[#2e2e38] shadow-2xl border-r border-violet-600/40 p-8 flex flex-col gap-4 z-50 animate-slide-in overflow-y-auto max-h-screen">
+					<div className="fixed top-0 left-0 h-full w-80 bg-black shadow-2xl border-r border-violet-600/40 p-8 flex flex-col gap-4 z-50 animate-slide-in overflow-y-auto max-h-screen">
 						<div className="flex justify-between items-center mb-6">
 							<span className="text-xl font-bold text-violet-400">Menu</span>
 							<button
@@ -54,24 +57,121 @@ const HamburgerMenu = ({ tools, selectedTool, setSelectedTool }) => {
 							</button>
 						</div>
 						<div className="flex flex-col gap-2">
-							{tools.map((tool) => (
-								<button
-									key={tool.value}
-									onClick={() => {
-										setSelectedTool(tool.value);
-										setOpen(false);
-										if (tool.page) navigate(tool.page);
-									}}
-									className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 active:scale-95 text-left ${
-										selectedTool === tool.value
-											? "bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white shadow-lg shadow-violet-500/30"
-											: "bg-gradient-to-r from-[#1e1e3f]/80 to-[#2a2a5a]/80 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-violet-600/70 hover:to-fuchsia-500/70 border border-violet-600/30 hover:border-violet-400/50"
-									}`}
-								>
-									<span className="text-lg">{tool.icon || "🔹"}</span>
-									<span className="text-base">{tool.label}</span>
-								</button>
-							))}
+							{tools.map((tool) => {
+								if (tool.value === "content") {
+									return (
+										<div key={tool.value}>
+											<button
+												onClick={() => setContentOpen((v) => !v)}
+												className={`flex items-center gap-3 px-3 py-2 w-full text-left text-gray-300 hover:bg-gray-800 hover:text-white rounded transition-colors duration-150 font-medium ${contentOpen ? 'bg-gray-800 text-white' : ''}`}
+											>
+												<span className="text-base">{tool.label}</span>
+												<span className={`ml-auto transition-transform duration-300 ${contentOpen ? 'rotate-90' : ''}`}>▶</span>
+											</button>
+											<div
+												className={`overflow-hidden transition-all duration-300 ${contentOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+											>
+												<div className="flex flex-col gap-2 pl-6">
+													{tools.filter(t => ["text","images","videos","audio"].includes(t.value)).map(subtool => (
+														<button
+															key={subtool.value}
+															onClick={() => {
+																setSelectedTool(subtool.value);
+																setOpen(false);
+																if (subtool.page) navigate(subtool.page);
+															}}
+															className={`flex items-center gap-3 px-3 py-2 w-full text-left text-gray-300 hover:bg-gray-800 hover:text-white rounded transition-colors duration-150 ${selectedTool === subtool.value ? 'bg-gray-800 text-white' : ''}`}
+														>
+															<span className="text-base">{subtool.label}</span>
+														</button>
+													))}
+												</div>
+											</div>
+										</div>
+									);
+								}
+								if (tool.value === "advanced") {
+									return (
+										<div key={tool.value}>
+											<button
+												onClick={() => setAdvancedOpen((v) => !v)}
+												className={`flex items-center gap-3 px-3 py-2 w-full text-left text-gray-300 hover:bg-gray-800 hover:text-white rounded transition-colors duration-150 font-medium ${advancedOpen ? 'bg-gray-800 text-white' : ''}`}
+											>
+												<span className="text-base">{tool.label}</span>
+												<span className={`ml-auto transition-transform duration-300 ${advancedOpen ? 'rotate-90' : ''}`}>▶</span>
+											</button>
+											<div
+												className={`overflow-hidden transition-all duration-300 ${advancedOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+											>
+												<div className="flex flex-col gap-2 pl-6">
+													{tools.filter(t => ["content-sync","ai-personas","realtime-collab","repurposing","ethical-ai","cloud-sec"].includes(t.value)).map(subtool => (
+														<button
+															key={subtool.value}
+															onClick={() => {
+																setSelectedTool(subtool.value);
+																setOpen(false);
+																if (subtool.page) navigate(subtool.page);
+															}}
+															className={`flex items-center gap-3 px-3 py-2 w-full text-left text-gray-300 hover:bg-gray-800 hover:text-white rounded transition-colors duration-150 ${selectedTool === subtool.value ? 'bg-gray-800 text-white' : ''}`}
+														>
+															<span className="text-base">{subtool.label}</span>
+														</button>
+													))}
+												</div>
+											</div>
+										</div>
+									);
+								}
+								if (tool.value === "creator") {
+									return (
+										<div key={tool.value}>
+											<button
+												onClick={() => setCreatorOpen((v) => !v)}
+												className={`flex items-center gap-3 px-3 py-2 w-full text-left text-gray-300 hover:bg-gray-800 hover:text-white rounded transition-colors duration-150 font-medium ${creatorOpen ? 'bg-gray-800 text-white' : ''}`}
+											>
+												<span className="text-base">{tool.label}</span>
+												<span className={`ml-auto transition-transform duration-300 ${creatorOpen ? 'rotate-90' : ''}`}>▶</span>
+											</button>
+											<div
+												className={`overflow-hidden transition-all duration-300 ${creatorOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+											>
+												<div className="flex flex-col gap-2 pl-6">
+													{tools.filter(t => ["social","promo","slides","collab"].includes(t.value)).map(subtool => (
+														<button
+															key={subtool.value}
+															onClick={() => {
+																setSelectedTool(subtool.value);
+																setOpen(false);
+																if (subtool.page) navigate(subtool.page);
+															}}
+															className={`flex items-center gap-3 px-3 py-2 w-full text-left text-gray-300 hover:bg-gray-800 hover:text-white rounded transition-colors duration-150 ${selectedTool === subtool.value ? 'bg-gray-800 text-white' : ''}`}
+														>
+															<span className="text-base">{subtool.label}</span>
+														</button>
+													))}
+												</div>
+											</div>
+										</div>
+									);
+								}
+								if (["text","images","videos","audio","content-sync","ai-personas","realtime-collab","repurposing","ethical-ai","cloud-sec","social","promo","slides","collab"].includes(tool.value)) {
+									return null;
+								}
+								return (
+									<button
+										key={tool.value}
+										onClick={() => {
+											setSelectedTool(tool.value);
+											setOpen(false);
+											if (tool.page) navigate(tool.page);
+										}}
+										className={`flex items-center gap-3 px-3 py-2 w-full text-left text-gray-300 hover:bg-gray-800 hover:text-white rounded transition-colors duration-150 ${selectedTool === tool.value ? 'bg-gray-800 text-white' : ''}`}
+									>
+										{/* Optionally add an icon here if available: <Icon className="h-5 w-5 mr-2" /> */}
+										<span className="text-base">{tool.label}</span>
+									</button>
+								);
+							})}
 						</div>
 					</div>
 					{/* Overlay to close menu when clicking outside, z-40 so sidebar stays above */}
@@ -86,19 +186,25 @@ const HamburgerMenu = ({ tools, selectedTool, setSelectedTool }) => {
 };
 
 const TOOLS = [
-	{ label: "Home", value: "home", page: "/", icon: "🏠" },
-	{ label: "Projects", value: "projects", page: "/projects", icon: "📁" },
-	{ label: "Content Tools", value: "content", page: "/content-tools", icon: "🛠️" },
-	{ label: "Advanced", value: "advanced", page: "/advanced", icon: "⚙️" },
-	{ label: "Get Started", value: "get-started", page: "/get-started", icon: "🚀" },
-	{ label: "Text", value: "text", page: "/text", icon: "📝" },
-	{ label: "Images", value: "images", page: "/images", icon: "🖼️" },
-	{ label: "Videos", value: "videos", page: "/videos", icon: "🎥" },
-	{ label: "Audio", value: "audio", page: "/audio", icon: "🎵" },
-	{ label: "Social Posts", value: "social", page: "/social", icon: "💬" },
-	{ label: "Promo Videos", value: "promo", page: "/promo-video", icon: "🎬" },
-	{ label: "Notes to Slides", value: "slides", page: "/notes-to-slides", icon: "📑" },
-	{ label: "Team Collab", value: "collab", page: "/realtime-collab", icon: "🤝" },
+	{ label: "Home", value: "home", page: "/" },
+	{ label: "Content Tools", value: "content", page: "/content-tools" },
+	{ label: "Creator Tools", value: "creator", page: "/creator-tools" },
+	{ label: "Advanced", value: "advanced", page: "/advanced" },
+	{ label: "Text", value: "text", page: "/text" },
+	{ label: "Images", value: "images", page: "/images" },
+	{ label: "Videos", value: "videos", page: "/videos" },
+	{ label: "Audio", value: "audio", page: "/audio" },
+	{ label: "Content Sync", value: "content-sync", page: "/content-sync" },
+	{ label: "AI Personas", value: "ai-personas", page: "/ai-personas" },
+	{ label: "Real-time Collab", value: "realtime-collab", page: "/realtime-collab" },
+	{ label: "Repurposing", value: "repurposing", page: "/repurposing" },
+	{ label: "Ethical AI", value: "ethical-ai", page: "/ethical-ai" },
+	{ label: "Cloud Sec", value: "cloud-sec", page: "/cloud-sec" },
+	{ label: "Social Posts", value: "social", page: "/social" },
+	{ label: "Promo Videos", value: "promo", page: "/promo-video" },
+	{ label: "Notes to Slides", value: "slides", page: "/notes-to-slides" },
+	{ label: "Team Collab", value: "collab", page: "/realtime-collab" },
+	{ label: "History", value: "history", page: "/history" },
 ];
 
 export default function Home() {

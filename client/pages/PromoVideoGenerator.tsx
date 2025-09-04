@@ -33,6 +33,7 @@ import {
   Eye,
   Wand2,
 } from "lucide-react";
+import StarLoading from "@/components/ui/StarLoading";
 
 const visualThemes = [
   {
@@ -247,46 +248,37 @@ export default function PromoVideoGenerator() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Prompt Input */}
                 <div className="space-y-2">
-                  <Label htmlFor="script">Video Script *</Label>
+                  <Label htmlFor="prompt">Your Prompt</Label>
                   <Textarea
-                    id="script"
-                    placeholder="Enter your promotional script... (e.g., 'Discover the future of productivity with our AI-powered platform. Transform your workflow in seconds, not hours. Join thousands of satisfied customers today!')"
-                    value={script}
-                    onChange={(e) => setScript(e.target.value)}
+                    id="prompt"
+                    placeholder="Describe your promo video..."
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
                     rows={6}
-                    className="resize-none"
+                    className="resize-none bg-gray-800 bg-opacity-60 text-white placeholder:text-gray-300 border-none shadow-none"
                   />
-                  <div className="text-xs text-white">
-                    {script.length} characters (~
-                    {Math.ceil(script.length / 150)} seconds)
-                  </div>
                 </div>
-
+                {/* Theme Select */}
                 <div className="space-y-2">
-                  <Label htmlFor="theme">Visual Theme</Label>
+                  <Label htmlFor="theme">Theme</Label>
                   <Select value={visualTheme} onValueChange={setVisualTheme}>
-                    <SelectTrigger>
-                      <SelectValue />
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
+                      <SelectValue placeholder="Select theme" />
                     </SelectTrigger>
-                    <SelectContent>
-                      {visualThemes.map((theme) => (
-                        <SelectItem key={theme.value} value={theme.value}>
-                          <div>
-                            <div className="font-medium">{theme.label}</div>
-                            <div className="text-xs text-white">
-                              {theme.description}
-                            </div>
-                          </div>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
+                      {visualThemes.map((themeOption) => (
+                        <SelectItem
+                          key={themeOption.value}
+                          value={themeOption.value}
+                          className="text-white bg-transparent hover:bg-gray-700/60"
+                        >
+                          {themeOption.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  {selectedTheme && (
-                    <div className="text-xs text-white bg-muted/50 p-2 rounded">
-                      {selectedTheme.description}
-                    </div>
-                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -388,151 +380,20 @@ export default function PromoVideoGenerator() {
               </CardHeader>
               <CardContent>
                 {isGenerating ? (
-                  <div className="space-y-6">
-                    {/* Overall Progress */}
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm text-white">
-                        <span>Generation Progress</span>
-                        <span>{Math.round(generationProgress)}%</span>
-                      </div>
-                      <Progress value={generationProgress} className="h-2" />
-                    </div>
-
-                    {/* Current Stage */}
-                    {currentStage && (
-                      <div className="bg-muted/50 rounded-lg p-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium text-white">{currentStage.stage}</h4>
-                          <RefreshCw className="h-4 w-4 animate-spin text-primary" />
-                        </div>
-                        <p className="text-sm text-white mb-3">
-                          {currentStage.description}
-                        </p>
-                        <Progress
-                          value={currentStage.progress}
-                          className="h-1"
-                        />
-                      </div>
-                    )}
-
-                    {/* Stages List */}
-                    <div className="space-y-3">
-                      {stages.map((stage, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center space-x-3"
-                        >
-                          <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                              stage.completed
-                                ? "bg-green-500 text-white"
-                                : currentStage?.stage === stage.stage
-                                  ? "bg-primary text-primary-foreground"
-                                  : "bg-muted text-muted-foreground"
-                            }`}
-                          >
-                            {stage.completed ? "✓" : index + 1}
-                          </div>
-                          <div className="flex-1">
-                            <div className="font-medium text-sm text-white">
-                              {stage.stage}
-                            </div>
-                            <div className="text-xs text-white">
-                              {stage.description}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="w-full h-[300px] flex items-center justify-center relative">
+                    <StarLoading />
                   </div>
                 ) : generatedVideo ? (
-                  <Tabs defaultValue="preview" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="preview">Preview</TabsTrigger>
-                      <TabsTrigger value="script">Script</TabsTrigger>
-                      <TabsTrigger value="details">Details</TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="preview" className="space-y-4">
-                      <div className="relative bg-black rounded-lg overflow-hidden">
-                        <div
-                          className={`${aspectRatio === "16:9" ? "aspect-video" : aspectRatio === "1:1" ? "aspect-square" : aspectRatio === "9:16" ? "aspect-[9/16]" : "aspect-[4/5]"} bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center`}
-                        >
-                          <div className="text-center text-white">
-                            <Video className="h-16 w-16 mx-auto mb-4" />
-                            <p className="text-lg font-semibold text-white">
-                              Promotional Video
-                            </p>
-                            <p className="text-sm opacity-75 text-white">
-                              {duration}s | {aspectRatio} |{" "}
-                              {selectedTheme?.label}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between bg-black/50 backdrop-blur-sm rounded-lg p-3">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={togglePlay}
-                            className="text-white hover:bg-gray-900/40"
-                          >
-                            {isPlaying ? (
-                              <Pause className="h-5 w-5" />
-                            ) : (
-                              <Play className="h-5 w-5" />
-                            )}
-                          </Button>
-                          <div className="flex-1 mx-4 bg-gray-900/40 rounded-full h-2">
-                            <div className="bg-gray-900/80 rounded-full h-full w-1/3"></div>
-                          </div>
-                          <span className="text-white text-sm">
-                            0:{duration}
-                          </span>
-                        </div>
-                      </div>
-                    </TabsContent>
-
-                    <TabsContent value="script" className="space-y-4">
-                      <div className="bg-muted/50 rounded-lg p-4">
-                        <div className="flex items-center mb-3">
-                          <FileText className="h-4 w-4 mr-2" />
-                          <span className="font-medium">Original Script</span>
-                        </div>
-                        <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans text-white">
-                          {script}
-                        </pre>
-                      </div>
-                    </TabsContent>
-
-                    <TabsContent value="details" className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-muted/50 rounded-lg p-4">
-                          <h4 className="font-medium mb-2">Video Specs</h4>
-                          <div className="space-y-1 text-sm text-white">
-                            <div>Duration: {duration} seconds</div>
-                            <div>Aspect Ratio: {aspectRatio}</div>
-                            <div>Quality: {quality[0]}%</div>
-                            <div>Theme: {selectedTheme?.label}</div>
-                          </div>
-                        </div>
-                        <div className="bg-muted/50 rounded-lg p-4">
-                          <h4 className="font-medium mb-2">Generated Assets</h4>
-                          <div className="space-y-1 text-sm text-white">
-                            <div>✓ Storyboard scenes</div>
-                            <div>✓ Visual transitions</div>
-                            <div>✓ Text overlays</div>
-                            <div>✓ Audio synchronization</div>
-                          </div>
-                        </div>
-                      </div>
-                    </TabsContent>
-                  </Tabs>
+                  <div className="rounded-lg p-4 bg-black bg-opacity-40">
+                    <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans text-white">
+                      {generatedVideo}
+                    </pre>
+                  </div>
                 ) : (
-                  <div className="text-center py-32 text-muted-foreground">
-                    <Video className="h-20 w-20 mx-auto mb-4 opacity-50" />
-                    <p className="text-lg">
-                      Enter your script and configuration to generate your
-                      promotional video
+                  <div className="text-center py-12 text-muted-foreground">
+                    <p>
+                      Enter your prompt and click "Generate Content" to see your
+                      AI-created promo video here
                     </p>
                   </div>
                 )}
