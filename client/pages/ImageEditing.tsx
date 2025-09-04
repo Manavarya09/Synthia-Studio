@@ -45,19 +45,47 @@ export default function ImageEditing() {
     setEditedImages([]);
 
     try {
+      // Ensure the image is in base64 format if it's a URL
+      let processedImageUrl = imageUrl;
+      
+      // If it's not a data URL or base64 already, try to fetch and convert it
+      if (!imageUrl.startsWith('data:') && !imageUrl.startsWith('blob:')) {
+        try {
+          const imageResponse = await fetch(imageUrl);
+          const blob = await imageResponse.blob();
+          const reader = new FileReader();
+          processedImageUrl = await new Promise<string>((resolve) => {
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          });
+        } catch (imgErr) {
+          console.error("Failed to convert image URL to base64:", imgErr);
+          // Continue with original URL if conversion fails
+        }
+      }
+
       const res = await fetch("/api/edit-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          imageUrl,
+          imageUrl: processedImageUrl,
           editPrompt,
           negativePrompt,
         }),
       });
 
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `Request failed: ${res.status}`);
+        let errorMessage = `Request failed with status ${res.status}`;
+        try {
+          const errorData = await res.json();
+          if (errorData.error) {
+            errorMessage = errorData.error;
+          }
+        } catch {
+          const text = await res.text();
+          if (text) errorMessage = text;
+        }
+        throw new Error(errorMessage);
       }
 
       const data: { editedImages: string[]; model: string; originalImage: string } = await res.json();
@@ -65,10 +93,12 @@ export default function ImageEditing() {
       setOriginalImage(data.originalImage);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Unknown error";
+      console.error("Image editing error:", message);
+      
       setEditedImages([
         "data:image/svg+xml;base64," +
           btoa(
-            "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'><rect width='100%' height='100%' fill='#fee2e2'/><text x='20' y='110' font-family='Arial' font-size='14' fill='#991b1b'>Error editing image</text></svg>",
+            `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'><rect width='100%' height='100%' fill='#fee2e2'/><text x='20' y='100' font-family='Arial' font-size='14' fill='#991b1b'>Error editing image:</text><text x='20' y='120' font-family='Arial' font-size='12' fill='#991b1b'>${message.substring(0, 50)}${message.length > 50 ? '...' : ''}</text></svg>`,
           ),
       ]);
     } finally {

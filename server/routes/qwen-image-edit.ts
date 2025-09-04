@@ -1,8 +1,8 @@
 import type { RequestHandler } from "express";
 import type { EditImageRequest, EditImageResponse } from "@shared/api";
 
-const DEFAULT_BASE_URL = "https://dashscope-intl.aliyuncs.com/api/v1";
-const DEFAULT_IMAGE_EDIT_PATH = "/services/aigc/multimodal-generation/generation";
+const DEFAULT_BASE_URL = "https://dashscope.aliyuncs.com/api/v1";
+const DEFAULT_IMAGE_EDIT_PATH = "/services/aigc/text2image-editing/image-editing";
 
 export const handleQwenImageEdit: RequestHandler = async (req, res) => {
   try {

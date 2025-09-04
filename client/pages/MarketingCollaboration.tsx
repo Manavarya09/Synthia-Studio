@@ -373,7 +373,7 @@ export default function MarketingCollaboration() {
 
           {/* Collaboration Workspace */}
           <div className="lg:col-span-3">
-            <Card>
+            <Card className="bg-transparent border-white/10">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span className="flex items-center">

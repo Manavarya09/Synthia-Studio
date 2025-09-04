@@ -239,7 +239,7 @@ export default function Home() {
 			{/* Prompt Box Overlay */}
 			{showPrompt && (
 				<form
-					className="absolute left-1/2 bottom-24 transform -translate-x-1/2 w-[700px] max-w-[95vw] bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e] bg-opacity-95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-violet-500/40 p-6 flex flex-col items-center z-20 transition-all duration-300 hover:scale-[1.01] hover:shadow-violet-700/40 hover:border-violet-400/60"
+					className="absolute left-1/2 bottom-24 transform -translate-x-1/2 w-[700px] max-w-[95vw] bg-[#0D0D0D] bg-opacity-95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-violet-500/40 p-6 flex flex-col items-center z-20 transition-all duration-300 hover:scale-[1.01] hover:shadow-violet-700/40 hover:border-violet-400/60"
 					onSubmit={handleSubmit}
 					autoComplete="off"
 				>

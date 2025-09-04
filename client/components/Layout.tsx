@@ -44,7 +44,7 @@ const navigation = [
       { label: "Cloud Sec", value: "cloud-sec", page: "/cloud-security" },
     ],
   },
-  { label: "History", value: "history", page: "/history", icon: HistoryIcon },
+  { label: "History", value: "history", page: "/projects", icon: HistoryIcon },
 ];
 
 export default function Layout({ children }: LayoutProps) {
@@ -76,9 +76,11 @@ export default function Layout({ children }: LayoutProps) {
       </div>
       
       {/* Header with Hamburger Menu and Logo */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4">
-        <HamburgerMenu tools={navigation} selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
-        <img src="/logo.svg" alt="Logo" className="h-12 w-auto" />
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center p-4">
+        <div className="flex-1">
+          <HamburgerMenu tools={navigation} selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
+        </div>
+        <img src="Black & White Minimalist Business Logo-2.png" alt="Logo" className="h-20 w-auto" />
       </div>
       
       <main className="flex-1 w-full pt-20">{children}</main>
@@ -90,11 +92,11 @@ export default function Layout({ children }: LayoutProps) {
                 <Sparkles className="h-4 w-4 text-white" />
               </div>
               <span className="font-semibold bg-gradient-brand bg-clip-text text-transparent">
-                GenAI Studio
+                Cynthia Studio
               </span>
             </div>
             <div className="text-sm text-muted-foreground">
-              © 2024 GenAI Studio. All rights reserved.
+              © 2025 Cynthia Studio. All rights reserved.
             </div>
           </div>
         </div>
