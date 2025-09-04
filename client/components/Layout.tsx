@@ -19,7 +19,6 @@ const navigation = [
       { label: "Text", value: "text", page: "/text" },
       { label: "Images", value: "images", page: "/images" },
       { label: "Videos", value: "videos", page: "/videos" },
-      { label: "Audio", value: "audio", page: "/audio" },
     ],
   },
   {
@@ -29,6 +28,7 @@ const navigation = [
       { label: "Social Posts", value: "social", page: "/social" },
       { label: "Promo Videos", value: "promo", page: "/promo-video" },
       { label: "Notes to Slides", value: "slides", page: "/notes-to-slides" },
+      { label: "Image Editing", value: "image-editing", page: "/image-editing" },
       { label: "Team Collab", value: "collab", page: "/collaboration" },
     ],
   },

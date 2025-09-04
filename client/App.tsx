@@ -18,7 +18,7 @@ import MarketingCollaboration from "./pages/MarketingCollaboration";
 import TextGeneration from "./pages/TextGeneration";
 import ImageGeneration from "./pages/ImageGeneration";
 import VideoGeneration from "./pages/VideoGeneration";
-import AudioGeneration from "./pages/AudioGeneration";
+import ImageEditing from "./pages/ImageEditing";
 // Advanced Features
 import ContentSync from "./pages/ContentSync";
 import AIPersonas from "./pages/AIPersonas";
@@ -113,10 +113,10 @@ const App = () => (
             }
           />
           <Route
-            path="/audio"
+            path="/image-editing"
             element={
               <Layout>
-                <AudioGeneration />
+                <ImageEditing />
               </Layout>
             }
           />
