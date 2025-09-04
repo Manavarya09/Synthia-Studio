@@ -34,35 +34,11 @@ export const handlePromoVideo: RequestHandler = async (req, res) => {
       enhancedPrompt = `Create a promotional video with ${visualTheme || 'corporate'} visual style. ${prompt}`;
     }
 
-    // Map aspect ratio to resolution
-    const getResolution = (ratio: string) => {
-      switch (ratio) {
-        case "16:9": return "1280x720";
-        case "1:1": return "720x720";
-        case "9:16": return "720x1280";
-        case "4:5": return "720x900";
-        default: return "1280x720";
-      }
-    };
-
-    const resolution = getResolution(aspectRatio || "16:9");
-    const videoDuration = duration || 20;
-
     // Step 1: Create video task (async)
     const body = {
       model,
-      input: { 
-        prompt: enhancedPrompt,
-        meta: { 
-          videoType: "promo",
-          duration: videoDuration,
-          resolution,
-          fps: 24
-        }
-      },
-      parameters: {
-        quality: quality || 80
-      },
+      input: { prompt: enhancedPrompt },
+      parameters: {},
     } as const;
 
     console.log("DashScope Promo Video request:", JSON.stringify(body, null, 2));
@@ -78,7 +54,7 @@ export const handlePromoVideo: RequestHandler = async (req, res) => {
     });
 
     const createData = await createRes.json();
-    console.log("DashScope Promo Video Raw Response:", JSON.stringify(createData, null, 2));
+    console.log("DashScope raw promo video response:", JSON.stringify(createData, null, 2));
 
     if (!createRes.ok || !createData?.output?.task_id) {
       return res
@@ -127,7 +103,7 @@ export const handlePromoVideo: RequestHandler = async (req, res) => {
     const result: GeneratePromoVideoResponse = { 
       videoUrl, 
       model,
-      duration: videoDuration,
+      duration: duration || 20,
       aspectRatio: aspectRatio || "16:9"
     };
     
