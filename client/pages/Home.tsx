@@ -240,17 +240,6 @@ export default function Home() {
 				>
 					{/* Header */}
 					<div className="w-full flex items-center justify-between mb-4">
-						<div className="flex items-center gap-2">
-							<div className="w-2 h-2 bg-violet-500 rounded-full animate-pulse"></div>
-							<span className="text-violet-300 text-sm font-medium">
-								AI Assistant
-							</span>
-						</div>
-						<div className="flex gap-1">
-							<div className="w-3 h-3 bg-red-400 rounded-full opacity-70"></div>
-							<div className="w-3 h-3 bg-yellow-400 rounded-full opacity-70"></div>
-							<div className="w-3 h-3 bg-green-400 rounded-full opacity-70"></div>
-						</div>
 					</div>
 
 					{/* Input Section */}
@@ -262,7 +251,15 @@ export default function Home() {
 								onChange={(e) => setSelectedTool(e.target.value)}
 								className="appearance-none px-4 py-3 pr-10 rounded-2xl bg-gradient-to-r from-[#1e1e3f] to-[#2a2a5a] text-white font-medium focus:outline-none focus:ring-2 focus:ring-violet-400 border border-violet-600/50 shadow-lg transition-all duration-300 hover:border-violet-400 hover:shadow-violet-500/25 cursor-pointer min-w-[120px]"
 							>
-								{TOOLS.map((tool) => (
+								{TOOLS.filter(tool => [
+									"text",
+									"images",
+									"videos",
+									"audio",
+									"social",
+									"promo",
+									"slides"
+								].includes(tool.value)).map((tool) => (
 									<option
 										key={tool.value}
 										value={tool.value}
@@ -313,9 +310,19 @@ export default function Home() {
 					<div className="flex w-full justify-end">
 						<button
 							type="submit"
-							className="px-8 py-3 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-purple-600 text-white font-semibold shadow-lg border-none hover:from-violet-700 hover:via-fuchsia-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-all duration-300 hover:shadow-violet-500/40 hover:scale-105 active:scale-95 relative overflow-hidden group"
+							className="px-3 py-2 rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-purple-600 text-white font-semibold shadow-lg border-none hover:from-violet-700 hover:via-fuchsia-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-all duration-300 hover:shadow-violet-500/40 hover:scale-105 active:scale-95 relative overflow-hidden group flex items-center justify-center"
 						>
-							<span className="relative z-10">Send</span>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-5 w-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								strokeWidth={2}
+							>
+								<path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+							</svg>
+							{/* Removed 'Send' text */}
 							<div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out"></div>
 						</button>
 					</div>
