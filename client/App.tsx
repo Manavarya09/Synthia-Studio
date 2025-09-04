@@ -27,6 +27,7 @@ import ContentRepurposing from "./pages/ContentRepurposing";
 import EthicalAI from "./pages/EthicalAI";
 import CloudSecurity from "./pages/CloudSecurity";
 import NotFound from "./pages/NotFound";
+import Spline from "@splinetool/react-spline";
 
 const queryClient = new QueryClient();
 
@@ -184,3 +185,9 @@ const App = () => (
 );
 
 createRoot(document.getElementById("root")!).render(<App />);
+
+// export default function App() {
+//   return (
+//     <Spline scene="https://prod.spline.design/mHxBByShoKLfoEba/scene.splinecode" />
+//   );
+// }

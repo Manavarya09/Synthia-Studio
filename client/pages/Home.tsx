@@ -233,7 +233,7 @@ export default function Home() {
 	return (
 		<div className="fixed inset-0 w-screen h-screen">
 			<Spline
-				scene="https://prod.spline.design/qbjH4XaqahY0Zi-k/scene.splinecode"
+				scene="https://prod.spline.design/x7i5df0lVdNqAf-o/scene.splinecode"
 				style={{ width: "100vw", height: "100vh" }}
 			/>
 			{/* Prompt Box Overlay */}

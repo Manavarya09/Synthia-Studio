@@ -229,7 +229,6 @@ export default function PromoVideoGenerator() {
             final render with unified visual theming
           </p>
           <Badge variant="secondary" className="mt-4">
-            <Sparkles className="h-3 w-3 mr-1" />
             Powered by Wan-T2V-14B
           </Badge>
         </div>

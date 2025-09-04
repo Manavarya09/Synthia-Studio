@@ -246,7 +246,6 @@ export default function MarketingCollaboration() {
             produce blogs, podcasts, and advertisements
           </p>
           <Badge variant="secondary" className="mt-4">
-            <Sparkles className="h-3 w-3 mr-1" />
             Powered by Qwen-Plus + Wan
           </Badge>
         </div>

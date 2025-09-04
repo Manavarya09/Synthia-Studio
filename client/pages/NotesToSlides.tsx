@@ -204,7 +204,6 @@ export default function NotesToSlides() {
             visuals and narrated audio
           </p>
           <Badge variant="secondary" className="mt-4">
-            <Sparkles className="h-3 w-3 mr-1" />
             Powered by Qwen-Max + Wan
           </Badge>
         </div>

@@ -307,7 +307,6 @@ export default function ContentRepurposing() {
             </p>
           </div>
           <Badge variant="secondary" className="flex items-center">
-            <Sparkles className="h-3 w-3 mr-1" />
             Powered by Qwen-Max + Wan
           </Badge>
         </div>

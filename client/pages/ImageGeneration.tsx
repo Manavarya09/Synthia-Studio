@@ -135,17 +135,13 @@ export default function ImageGeneration() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
-            <div className="h-12 w-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mr-3">
-              <Image className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold">Image Generation</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-white">Image Generation</h1>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Create stunning visuals and graphics with our advanced AI image
             generation powered by Wan-I2V-14B-720P
           </p>
           <Badge variant="secondary" className="mt-4">
-            <Sparkles className="h-3 w-3 mr-1" />
             Powered by Wan-I2V-14B-720P
           </Badge>
         </div>
@@ -153,7 +149,7 @@ export default function ImageGeneration() {
         <div className="grid lg:grid-cols-5 gap-8">
           {/* Input Section */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="h-fit">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Settings className="h-5 w-5 mr-2" />
@@ -220,12 +216,16 @@ export default function ImageGeneration() {
                 <div className="space-y-2">
                   <Label htmlFor="aspect-ratio">Aspect Ratio</Label>
                   <Select value={aspectRatio} onValueChange={setAspectRatio}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
                       {aspectRatios.map((ratio) => (
-                        <SelectItem key={ratio.value} value={ratio.value}>
+                        <SelectItem
+                          key={ratio.value}
+                          value={ratio.value}
+                          className="text-white bg-transparent hover:bg-gray-700/60"
+                        >
                           {ratio.label}
                         </SelectItem>
                       ))}
@@ -269,7 +269,7 @@ export default function ImageGeneration() {
 
           {/* Output Section */}
           <div className="lg:col-span-3">
-            <Card>
+            <Card className="h-fit">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Palette className="h-5 w-5 mr-2" />
@@ -279,19 +279,19 @@ export default function ImageGeneration() {
                   Your AI-generated images will appear here
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="min-h-[600px]">
                 {isGenerating ? (
-                  <div className="w-full h-[300px] flex items-center justify-center relative">
+                  <div className="w-full h-full min-h-[600px] flex items-center justify-center relative">
                     <StarLoading />
                   </div>
                 ) : generatedImages.length > 0 ? (
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4">
                     {generatedImages.map((imageUrl, index) => (
                       <div key={index} className="group relative">
                         <img
                           src={imageUrl}
                           alt={`Generated image ${index + 1}`}
-                          className="w-full rounded-lg border bg-muted"
+                          className="w-full h-auto max-h-[500px] object-contain rounded-lg border bg-muted"
                         />
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
                           <Button

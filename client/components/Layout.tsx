@@ -44,7 +44,7 @@ const navigation = [
       { label: "Cloud Sec", value: "cloud-sec", page: "/cloud-security" },
     ],
   },
-  { label: "History", value: "history", page: "/projects", icon: HistoryIcon },
+  { label: "History", value: "history", page: "/history", icon: HistoryIcon },
 ];
 
 export default function Layout({ children }: LayoutProps) {
@@ -64,8 +64,14 @@ export default function Layout({ children }: LayoutProps) {
           />
         </div>
       )}
-      <HamburgerMenu tools={navigation} selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
-      <main className="flex-1 w-full">{children}</main>
+      
+      {/* Header with Hamburger Menu and Logo */}
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center p-4">
+        <HamburgerMenu tools={navigation} selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
+        <img src="/logo-new.svg" alt="Synthia Studio" className="h-16 w-auto ml-4" />
+      </div>
+      
+      <main className="flex-1 w-full pt-20">{children}</main>
       <footer className="border-t border-border/40 py-8 mt-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">

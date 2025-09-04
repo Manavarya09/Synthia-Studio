@@ -292,7 +292,6 @@ We project 10,000 sign-ups in the first quarter and $500K ARR by year-end.`);
           </div>
           <div className="flex items-center space-x-4">
             <Badge variant="secondary" className="flex items-center">
-              <Sparkles className="h-3 w-3 mr-1" />
               Powered by Qwen-Turbo
             </Badge>
           </div>

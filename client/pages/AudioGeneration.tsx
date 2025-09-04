@@ -168,7 +168,6 @@ export default function AudioGeneration() {
             audio generation powered by Qwen-Audio
           </p>
           <Badge variant="secondary" className="mt-4">
-            <Sparkles className="h-3 w-3 mr-1" />
             Powered by Qwen-Audio
           </Badge>
         </div>
