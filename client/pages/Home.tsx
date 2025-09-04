@@ -72,7 +72,7 @@ const HamburgerMenu = ({ tools, selectedTool, setSelectedTool }) => {
 												className={`overflow-hidden transition-all duration-300 ${contentOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
 											>
 												<div className="flex flex-col gap-2 pl-6">
-													{tools.filter(t => ["text","images","videos","audio"].includes(t.value)).map(subtool => (
+													{tools.filter(t => ["text","images","videos"].includes(t.value)).map(subtool => (
 														<button
 															key={subtool.value}
 															onClick={() => {
@@ -136,7 +136,7 @@ const HamburgerMenu = ({ tools, selectedTool, setSelectedTool }) => {
 												className={`overflow-hidden transition-all duration-300 ${creatorOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
 											>
 												<div className="flex flex-col gap-2 pl-6">
-													{tools.filter(t => ["social","promo","slides","collab"].includes(t.value)).map(subtool => (
+													{tools.filter(t => ["social","promo","slides","image-editing","collab"].includes(t.value)).map(subtool => (
 														<button
 															key={subtool.value}
 															onClick={() => {
@@ -154,7 +154,7 @@ const HamburgerMenu = ({ tools, selectedTool, setSelectedTool }) => {
 										</div>
 									);
 								}
-								if (["text","images","videos","audio","content-sync","ai-personas","realtime-collab","repurposing","ethical-ai","cloud-sec","social","promo","slides","collab"].includes(tool.value)) {
+								if (["text","images","videos","content-sync","ai-personas","realtime-collab","repurposing","ethical-ai","cloud-sec","social","promo","slides","image-editing","collab"].includes(tool.value)) {
 									return null;
 								}
 								return (
@@ -193,7 +193,7 @@ const TOOLS = [
 	{ label: "Text", value: "text", page: "/text" },
 	{ label: "Images", value: "images", page: "/images" },
 	{ label: "Videos", value: "videos", page: "/videos" },
-	{ label: "Audio", value: "audio", page: "/audio" },
+	{ label: "Image Editing", value: "image-editing", page: "/image-editing" },
 	{ label: "Content Sync", value: "content-sync", page: "/content-sync" },
 	{ label: "AI Personas", value: "ai-personas", page: "/ai-personas" },
 	{ label: "Real-time Collab", value: "realtime-collab", page: "/realtime-collab" },
@@ -255,10 +255,10 @@ export default function Home() {
 									"text",
 									"images",
 									"videos",
-									"audio",
 									"social",
 									"promo",
-									"slides"
+									"slides",
+									"image-editing"
 								].includes(tool.value)).map((tool) => (
 									<option
 										key={tool.value}

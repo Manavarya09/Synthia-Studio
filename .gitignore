@@ -25,3 +25,6 @@ dist-ssr
 
 .config/
 !.env
+
+# Vite build cache
+.vite/

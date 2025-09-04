@@ -67,21 +67,19 @@ export interface GenerateVideoResponse {
 }
 
 /**
- * Request body for audio generation endpoint
+ * Request body for image editing endpoint
  */
-export interface GenerateAudioRequest {
-  text: string;
-  audioType?: string;
-  voice?: string;
-  language?: string;
-  speed?: number;
-  pitch?: number;
+export interface EditImageRequest {
+  imageUrl: string;
+  editPrompt: string;
+  negativePrompt?: string;
 }
 
 /**
- * Response body for audio generation endpoint
+ * Response body for image editing endpoint
  */
-export interface GenerateAudioResponse {
-  audioUrl: string;
+export interface EditImageResponse {
+  editedImages: string[];
   model: string;
+  originalImage: string;
 }
