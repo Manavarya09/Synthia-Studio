@@ -6,6 +6,7 @@ import { handleQwenText } from "./routes/qwen-text";
 import { handleQwenImage } from "./routes/qwen-image";
 import { handleQwenVideo } from "./routes/qwen-video";
 import { handleQwenImageEdit } from "./routes/qwen-image-edit";
+import { handlePromoVideo } from "./routes/promo-video";
 import notesToSlidesRouter from "./routes/notes-to-slides";
 
 export function createServer() {
@@ -27,6 +28,7 @@ export function createServer() {
   app.post("/api/generate-image", handleQwenImage);
   app.post("/api/generate-video", handleQwenVideo);
   app.post("/api/edit-image", handleQwenImageEdit);
+  app.post("/api/generate-promo-video", handlePromoVideo);
   app.use("/api", notesToSlidesRouter);
 
   return app;

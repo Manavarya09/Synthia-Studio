@@ -155,7 +155,7 @@ export default function PromoVideoGenerator() {
   }, [location.search]);
 
   const handleGenerate = async () => {
-    if (!script.trim()) return;
+    if (!prompt.trim()) return;
 
     setIsGenerating(true);
     setGenerationProgress(0);
@@ -163,42 +163,63 @@ export default function PromoVideoGenerator() {
       generationStages.map((s) => ({ ...s, progress: 0, completed: false })),
     );
 
-    // Simulate progressive generation
-    for (let i = 0; i < stages.length; i++) {
-      setCurrentStage(stages[i]);
+    try {
+      // Start the API call
+      const response = await fetch("/api/generate-promo-video", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
+          script,
+          visualTheme,
+          duration,
+          aspectRatio,
+          quality: quality[0],
+        }),
+      });
 
-      // Simulate stage progression
-      for (let progress = 0; progress <= 100; progress += 10) {
-        await new Promise((resolve) => setTimeout(resolve, 200));
-        setStages((prev) =>
-          prev.map((stage, idx) =>
-            idx === i ? { ...stage, progress } : stage,
-          ),
-        );
-        setGenerationProgress(
-          ((i * 100 + progress) / (stages.length * 100)) * 100,
-        );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to generate promo video");
       }
 
-      setStages((prev) =>
-        prev.map((stage, idx) =>
-          idx === i ? { ...stage, completed: true } : stage,
-        ),
-      );
-    }
+      // Simulate progressive generation while waiting for response
+      const progressInterval = setInterval(() => {
+        setGenerationProgress((prev) => {
+          if (prev >= 90) return prev;
+          return prev + Math.random() * 5;
+        });
+      }, 1000);
 
-    // Final result
-    setTimeout(() => {
-      setGeneratedVideo("promo-video.mp4");
+      const data = await response.json();
+      clearInterval(progressInterval);
+
+      // Complete all stages
+      setStages((prev) =>
+        prev.map((stage) => ({ ...stage, progress: 100, completed: true })),
+      );
+      setGenerationProgress(100);
+
+      // Set the generated video URL
+      setGeneratedVideo(data.videoUrl);
+    } catch (error) {
+      console.error("Error generating promo video:", error);
+      alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`); 
+    } finally {
       setIsGenerating(false);
       setCurrentStage(null);
-    }, 1000);
+    }
   };
 
   const downloadVideo = () => {
+    if (!generatedVideo) return;
+    
     const link = document.createElement("a");
-    link.href = "#";
+    link.href = generatedVideo;
     link.download = `promo-video-${Date.now()}.mp4`;
+    link.target = "_blank";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -337,7 +358,7 @@ export default function PromoVideoGenerator() {
 
                 <Button
                   onClick={handleGenerate}
-                  disabled={!script.trim() || isGenerating}
+                  disabled={!prompt.trim() || isGenerating}
                   className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:opacity-90"
                   size="lg"
                 >
@@ -383,16 +404,26 @@ export default function PromoVideoGenerator() {
                     <StarLoading />
                   </div>
                 ) : generatedVideo ? (
-                  <div className="rounded-lg p-4 bg-black bg-opacity-40">
-                    <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans text-white">
-                      {generatedVideo}
-                    </pre>
+                  <div className="rounded-lg overflow-hidden bg-black bg-opacity-40">
+                    <video 
+                      src={generatedVideo} 
+                      controls 
+                      className="w-full h-auto max-h-[400px] rounded-lg"
+                      poster="/placeholder.svg"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                    <div className="p-4">
+                      <p className="text-sm text-white/80">
+                        Promo video generated successfully! Duration: {duration}s, Aspect Ratio: {aspectRatio}
+                      </p>
+                    </div>
                   </div>
                 ) : (
                   <div className="text-center py-12 text-muted-foreground">
                     <p>
-                      Enter your prompt and click "Generate Content" to see your
-                      AI-created promo video here
+                      Enter your prompt and click "Generate Promo Video" to see your
+                      AI-created promotional video here
                     </p>
                   </div>
                 )}

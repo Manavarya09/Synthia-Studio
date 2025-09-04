@@ -83,3 +83,25 @@ export interface EditImageResponse {
   model: string;
   originalImage: string;
 }
+
+/**
+ * Request body for promo video generation endpoint
+ */
+export interface GeneratePromoVideoRequest {
+  prompt: string;
+  script?: string;
+  visualTheme?: string;
+  duration?: number;
+  aspectRatio?: string;
+  quality?: number;
+}
+
+/**
+ * Response body for promo video generation endpoint
+ */
+export interface GeneratePromoVideoResponse {
+  videoUrl: string;
+  model: string;
+  duration: number;
+  aspectRatio: string;
+}
