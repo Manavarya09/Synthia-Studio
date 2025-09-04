@@ -66,9 +66,9 @@ export default function Layout({ children }: LayoutProps) {
       )}
       
       {/* Header with Hamburger Menu and Logo */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex items-center p-4">
+      <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4">
         <HamburgerMenu tools={navigation} selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
-        <img src="/logo-new.svg" alt="Synthia Studio" className="h-16 w-auto ml-4" />
+        <img src="/logo.svg" alt="Logo" className="h-12 w-auto" />
       </div>
       
       <main className="flex-1 w-full pt-20">{children}</main>
