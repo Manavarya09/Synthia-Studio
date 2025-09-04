@@ -192,12 +192,7 @@ export default function TextGeneration() {
                     <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
                     Generating...
                   </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    Generate Content
-                  </>
-                )}
+                ) : null}
               </Button>
             </CardContent>
           </Card>

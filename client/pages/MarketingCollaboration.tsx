@@ -367,10 +367,7 @@ export default function MarketingCollaboration() {
                       Setting up...
                     </>
                   ) : (
-                    <>
-                      <Sparkles className="h-4 w-4 mr-2" />
-                      Start Collaboration
-                    </>
+                    "Start Collaboration"
                   )}
                 </Button>
               </CardContent>

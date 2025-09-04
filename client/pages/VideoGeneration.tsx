@@ -39,14 +39,6 @@ const videoTypes = [
   { value: "explainer", label: "Explainer Video" },
 ];
 
-const durations = [
-  { value: "15", label: "15 seconds" },
-  { value: "30", label: "30 seconds" },
-  { value: "60", label: "1 minute" },
-  { value: "90", label: "1.5 minutes" },
-  { value: "120", label: "2 minutes" },
-];
-
 const resolutions = [
   { value: "720p", label: "HD (720p)" },
   { value: "1080p", label: "Full HD (1080p)" },
@@ -67,7 +59,6 @@ export default function VideoGeneration() {
   const location = useLocation();
   const [prompt, setPrompt] = useState("");
   const [videoType, setVideoType] = useState("");
-  const [duration, setDuration] = useState("30");
   const [resolution, setResolution] = useState("1080p");
   const [fps, setFps] = useState([30]);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -95,7 +86,6 @@ export default function VideoGeneration() {
         body: JSON.stringify({
           prompt,
           videoType,
-          duration: Number(duration),
           resolution: size, // send size string
           fps: fps[0],
         }),
@@ -134,9 +124,7 @@ export default function VideoGeneration() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
-            <div className="h-12 w-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3">
-              <Video className="h-6 w-6 text-white" />
-            </div>
+            {/* Green box removed */}
             <h1 className="text-3xl md:text-4xl font-bold text-white">
               Video Generation
             </h1>
@@ -152,8 +140,8 @@ export default function VideoGeneration() {
 
         <div className="grid lg:grid-cols-5 gap-8">
           {/* Input Section */}
-          <div className="lg:col-span-2">
-            <Card>
+          <div className="lg:col-span-2 flex flex-col min-h-[400px]">
+            <Card className="h-full flex-1 flex flex-col justify-between">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Settings className="h-5 w-5 mr-2" />
@@ -196,32 +184,16 @@ export default function VideoGeneration() {
                     </SelectContent>
                   </Select>
                 </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="duration">Duration</Label>
-                  <Select value={duration} onValueChange={setDuration}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {durations.map((dur) => (
-                        <SelectItem key={dur.value} value={dur.value}>
-                          {dur.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
+                {/* Resolution styled to match Video Type */}
                 <div className="space-y-2">
                   <Label htmlFor="resolution">Resolution</Label>
                   <Select value={resolution} onValueChange={setResolution}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
                       {resolutions.map((res) => (
-                        <SelectItem key={res.value} value={res.value}>
+                        <SelectItem key={res.value} value={res.value} className="text-white bg-transparent hover:bg-gray-700/60">
                           {res.label}
                         </SelectItem>
                       ))}
@@ -254,7 +226,7 @@ export default function VideoGeneration() {
                     </>
                   ) : (
                     <>
-                      <Sparkles className="h-4 w-4 mr-2" />
+                      
                       Generate Video
                     </>
                   )}
@@ -264,12 +236,12 @@ export default function VideoGeneration() {
           </div>
 
           {/* Output Section */}
-          <div className="lg:col-span-3">
-            <Card>
+          <div className="lg:col-span-3 flex flex-col min-h-[400px]">
+            <Card className="h-full flex-1 flex flex-col justify-between">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span className="flex items-center">
-                    <Video className="h-5 w-5 mr-2" />
+                    {/* Video icon removed */}
                     Generated Video
                   </span>
                   {generatedVideo && (

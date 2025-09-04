@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Construction, ArrowLeft, MessageCircle, Sparkles } from "lucide-react";
+import { Construction, ArrowLeft, MessageCircle } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 interface PlaceholderPageProps {
@@ -51,7 +51,6 @@ export default function PlaceholderPage({
             <CardContent className="space-y-6">
               <div className="bg-muted/50 rounded-lg p-6">
                 <h3 className="font-semibold mb-3 flex items-center">
-                  <Sparkles className="h-4 w-4 mr-2" />
                   What to expect:
                 </h3>
                 <ul className="text-sm text-muted-foreground space-y-2">
