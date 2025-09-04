@@ -238,9 +238,6 @@ export default function PromoVideoGenerator() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
-            <div className="h-12 w-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
-              <Video className="h-6 w-6 text-white" />
-            </div>
             <h1 className="text-3xl md:text-4xl font-bold text-white">
               Promo Video Generator
             </h1>
@@ -257,7 +254,7 @@ export default function PromoVideoGenerator() {
         <div className="grid lg:grid-cols-5 gap-8">
           {/* Settings Panel */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="h-full flex flex-col">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Settings className="h-5 w-5 mr-2" />
@@ -267,7 +264,7 @@ export default function PromoVideoGenerator() {
                   Configure your promotional video settings
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-6 flex-1 overflow-auto">
                 {/* Prompt Input */}
                 <div className="space-y-2">
                   <Label htmlFor="prompt">Your Prompt</Label>
@@ -302,36 +299,18 @@ export default function PromoVideoGenerator() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="duration">Duration</Label>
-                  <Select
-                    value={duration.toString()}
-                    onValueChange={(value) => setDuration(parseInt(value))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {durations.map((dur) => (
-                        <SelectItem
-                          key={dur.value}
-                          value={dur.value.toString()}
-                        >
-                          {dur.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
                   <Label htmlFor="ratio">Aspect Ratio</Label>
                   <Select value={aspectRatio} onValueChange={setAspectRatio}>
-                    <SelectTrigger>
-                      <SelectValue />
+                    <SelectTrigger className="bg-gray-800 bg-opacity-60 text-white border-none shadow-none">
+                      <SelectValue placeholder="Select aspect ratio" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 bg-opacity-80 text-white">
                       {aspectRatios.map((ratio) => (
-                        <SelectItem key={ratio.value} value={ratio.value}>
+                        <SelectItem 
+                          key={ratio.value} 
+                          value={ratio.value}
+                          className="text-white bg-transparent hover:bg-gray-700/60"
+                        >
                           <div>
                             <div className="font-medium">{ratio.label}</div>
                             <div className="text-xs text-white">
@@ -369,7 +348,7 @@ export default function PromoVideoGenerator() {
                     </>
                   ) : (
                     <>
-                      <Wand2 className="h-4 w-4 mr-2" />
+                     
                       Generate Promo Video
                     </>
                   )}
@@ -398,17 +377,17 @@ export default function PromoVideoGenerator() {
                   Your promotional video will be generated here
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="h-[500px] flex flex-col">
                 {isGenerating ? (
-                  <div className="w-full h-[300px] flex items-center justify-center relative">
+                  <div className="w-full flex-1 flex items-center justify-center relative">
                     <StarLoading />
                   </div>
                 ) : generatedVideo ? (
-                  <div className="rounded-lg overflow-hidden bg-black bg-opacity-40">
+                  <div className="rounded-lg overflow-hidden bg-black bg-opacity-40 flex-1 flex flex-col">
                     <video 
                       src={generatedVideo} 
                       controls 
-                      className="w-full h-auto max-h-[400px] rounded-lg"
+                      className="w-full flex-1 object-contain rounded-lg"
                       poster="/placeholder.svg"
                     >
                       Your browser does not support the video tag.
@@ -420,7 +399,7 @@ export default function PromoVideoGenerator() {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-12 text-muted-foreground">
+                  <div className="text-center flex-1 flex flex-col items-center justify-center text-muted-foreground">
                     <p>
                       Enter your prompt and click "Generate Promo Video" to see your
                       AI-created promotional video here

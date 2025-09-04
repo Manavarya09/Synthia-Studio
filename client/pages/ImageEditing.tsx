@@ -102,17 +102,11 @@ export default function ImageEditing() {
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="flex items-center justify-center mb-4">
-            <div className="h-12 w-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3">
-              <Edit3 className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-white">Image Editing</h1>
-          </div>
+          <h1 className="text-3xl md:text-4xl font-bold text-white">Image Editing</h1>
           <p className="text-xl text-white max-w-2xl mx-auto">
             Edit and transform your images with AI-powered editing capabilities
           </p>
           <Badge variant="secondary" className="mt-4">
-            <Sparkles className="h-3 w-3 mr-1" />
             Powered by Qwen-Image-Edit
           </Badge>
         </div>
@@ -120,17 +114,16 @@ export default function ImageEditing() {
         <div className="grid lg:grid-cols-5 gap-8">
           {/* Input Section */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="h-full flex flex-col">
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <Settings className="h-5 w-5 mr-2" />
                   Edit Settings
                 </CardTitle>
                 <CardDescription>
                   Upload an image and describe the changes you want to make
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-6 flex-1 overflow-auto">
                 {/* Image Upload */}
                 <div className="space-y-2">
                   <Label htmlFor="image-upload">Upload Image</Label>
@@ -205,7 +198,6 @@ export default function ImageEditing() {
                     </>
                   ) : (
                     <>
-                      <Edit3 className="h-4 w-4 mr-2" />
                       Edit Image
                     </>
                   )}
@@ -226,13 +218,13 @@ export default function ImageEditing() {
                   Your AI-edited images will appear here
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="h-[500px] flex flex-col">
                 {isEditing ? (
-                  <div className="w-full h-[400px] flex items-center justify-center relative">
+                  <div className="w-full flex-1 flex items-center justify-center relative">
                     <StarLoading />
                   </div>
                 ) : editedImages.length > 0 ? (
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-2 gap-4 flex-1 overflow-auto">
                     {editedImages.map((imageUrl, index) => (
                       <div key={index} className="group relative">
                         <img
@@ -255,8 +247,8 @@ export default function ImageEditing() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12 text-muted-foreground">
-                    <Upload className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <div className="text-center flex-1 flex flex-col items-center justify-center text-muted-foreground">
+                    <Upload className="h-12 w-12 mb-4 opacity-50" />
                     <p>
                       Upload an image and describe your edits to see the AI-transformed results here
                     </p>

@@ -65,6 +65,16 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       )}
       
+      {/* Contact Us Button (overlaying the "Built with Spline" text) */}
+      <div className="fixed bottom-2 right-2 z-50">
+        <button 
+          className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-2.5 rounded-md shadow-lg transition-all duration-200 ease-in-out transform hover:scale-105 font-medium"
+          onClick={() => window.location.href = "mailto:contact@genaistudio.com"}
+        >
+          Contact Us
+        </button>
+      </div>
+      
       {/* Header with Hamburger Menu and Logo */}
       <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4">
         <HamburgerMenu tools={navigation} selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
