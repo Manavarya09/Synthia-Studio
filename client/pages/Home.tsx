@@ -209,7 +209,7 @@ const TOOLS = [
 
 export default function Home() {
 	const [showPrompt, setShowPrompt] = useState(false);
-	const [selectedTool, setSelectedTool] = useState(TOOLS[0].value);
+	const [selectedTool, setSelectedTool] = useState("text");
 	const [input, setInput] = useState("");
 	const navigate = useNavigate();
 
@@ -221,8 +221,12 @@ export default function Home() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const tool = TOOLS.find((t) => t.value === selectedTool);
+		console.log("Form submitted:", { selectedTool, input, tool });
 		if (tool && input.trim()) {
-			navigate(`${tool.page}?prompt=${encodeURIComponent(input)}`);
+			const navigationUrl = `${tool.page}?prompt=${encodeURIComponent(input)}`;
+			console.log("Navigating to:", navigationUrl);
+			navigate(navigationUrl);
+			setShowPrompt(false);
 		}
 	};
 
@@ -237,6 +241,7 @@ export default function Home() {
 				<form
 					className="absolute left-1/2 bottom-24 transform -translate-x-1/2 w-[700px] max-w-[95vw] bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e] bg-opacity-95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-violet-500/40 p-6 flex flex-col items-center z-20 transition-all duration-300 hover:scale-[1.01] hover:shadow-violet-700/40 hover:border-violet-400/60"
 					onSubmit={handleSubmit}
+					autoComplete="off"
 				>
 					{/* Header */}
 					<div className="w-full flex items-center justify-between mb-4">
@@ -311,10 +316,11 @@ export default function Home() {
 						<button
 							type="submit"
 							className="px-3 py-2 rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-purple-600 text-white font-semibold shadow-lg border-none hover:from-violet-700 hover:via-fuchsia-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-all duration-300 hover:shadow-violet-500/40 hover:scale-105 active:scale-95 relative overflow-hidden group flex items-center justify-center"
+							tabIndex={0}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
-								className="h-5 w-5"
+								className="h-5 w-5 pointer-events-none"
 								fill="none"
 								viewBox="0 0 24 24"
 								stroke="currentColor"
@@ -323,7 +329,7 @@ export default function Home() {
 								<path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
 							</svg>
 							{/* Removed 'Send' text */}
-							<div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out"></div>
+							<div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out pointer-events-none"></div>
 						</button>
 					</div>
 

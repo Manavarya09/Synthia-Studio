@@ -236,12 +236,12 @@ export default function TextGeneration() {
             </CardHeader>
             <CardContent>
               {isGenerating ? (
-                <div className="w-full h-[300px] flex items-center justify-center relative">
+                <div className="absolute inset-0 w-full h-full flex items-center justify-center">
                   <StarLoading />
                 </div>
               ) : generatedContent ? (
-                <div className="rounded-lg p-4 bg-black bg-opacity-40">
-                  <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans text-white">
+                <div className="rounded-lg p-4 bg-black bg-opacity-40 max-h-[300px] min-h-[300px] overflow-y-auto flex">
+                  <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans text-white w-full h-full m-0">
                     {generatedContent}
                   </pre>
                 </div>
