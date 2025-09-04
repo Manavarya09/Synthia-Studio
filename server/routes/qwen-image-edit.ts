@@ -66,10 +66,8 @@ export const handleQwenImageEdit: RequestHandler = async (req, res) => {
 
     const data = await response.json();
     
-    // Log raw response for debugging
     console.log("DashScope Image Edit Raw Response:", JSON.stringify(data, null, 2));
     
-    // Extract edited images from response
     const editedImages: string[] = [];
     if (data?.output?.results) {
       for (const result of data.output.results) {

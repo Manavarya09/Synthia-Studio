@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import type { GeneratePromoVideoRequest, GeneratePromoVideoResponse } from "@shared/api";
 
-const DEFAULT_BASE_URL = "https://dashscope-intl.aliyuncs.com/api/v1";
+const DEFAULT_BASE_URL = "https://dashscope.aliyuncs.com/api/v1";
 const DEFAULT_VIDEO_PATH = "/services/aigc/video-generation/video-synthesis";
 
 export const handlePromoVideo: RequestHandler = async (req, res) => {
@@ -26,15 +26,12 @@ export const handlePromoVideo: RequestHandler = async (req, res) => {
 
     const model = process.env.DASHSCOPE_VIDEO_MODEL || "wan2.2-t2v-plus";
 
-    // Enhanced prompt for promo video with theme and script context
     let enhancedPrompt = prompt;
     if (script) {
       enhancedPrompt = `Create a promotional video based on this script: "${script}". Visual style: ${visualTheme || 'corporate'}. ${prompt}`;
     } else {
       enhancedPrompt = `Create a promotional video with ${visualTheme || 'corporate'} visual style. ${prompt}`;
     }
-
-    // Step 1: Create video task (async)
     const body = {
       model,
       input: { prompt: enhancedPrompt },
@@ -48,7 +45,7 @@ export const handlePromoVideo: RequestHandler = async (req, res) => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
-        "X-DashScope-Async": "enable", // async mode
+        "X-DashScope-Async": "enable"
       },
       body: JSON.stringify(body),
     });
@@ -65,14 +62,13 @@ export const handlePromoVideo: RequestHandler = async (req, res) => {
     const taskId = createData.output.task_id;
     const taskUrl = `${baseUrl}/tasks/${taskId}`;
 
-    // Step 2: Poll task until completed
     let videoUrl: string | null = null;
     let taskStatus = "PENDING";
     let pollCount = 0;
-    const maxPolls = 60; // 5 minutes max (60 * 5 seconds)
+    const maxPolls = 60;
 
     while ((taskStatus === "PENDING" || taskStatus === "RUNNING") && pollCount < maxPolls) {
-      await new Promise((r) => setTimeout(r, 5000)); // 5 seconds interval
+      await new Promise((r) => setTimeout(r, 5000));
       pollCount++;
 
       const pollRes = await fetch(taskUrl, {

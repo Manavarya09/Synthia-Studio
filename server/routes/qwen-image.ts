@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import type { GenerateImageRequest, GenerateImageResponse } from "@shared/api";
 
-const DEFAULT_BASE_URL = "https://dashscope-intl.aliyuncs.com/api/v1";
+const DEFAULT_BASE_URL = "https://dashscope.aliyuncs.com/api/v1";
 const DEFAULT_IMAGE_PATH = "/services/aigc/multimodal-generation/generation";
 
 export const handleQwenImage: RequestHandler = async (req, res) => {
@@ -56,7 +56,6 @@ export const handleQwenImage: RequestHandler = async (req, res) => {
 
     const data = await response.json();
 
-    // Log raw response
     console.log("DashScope raw response:", JSON.stringify(data, null, 2));
 
     if (!response.ok) {
@@ -65,7 +64,6 @@ export const handleQwenImage: RequestHandler = async (req, res) => {
         .json({ error: `DashScope error: ${JSON.stringify(data)}` });
     }
 
-    // Extract image URLs from the correct path
     const images: string[] =
       data?.output?.choices?.flatMap((choice: any) =>
         choice?.message?.content?.map((c: any) => c.image).filter(Boolean)
