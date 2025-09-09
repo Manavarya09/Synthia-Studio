@@ -10,6 +10,7 @@
 ![Tech Stack](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss&logoColor=white)
 ![Tech Stack](https://img.shields.io/badge/DashScope-00B5FF?logo=alibaba&logoColor=white)
 
+<!-- Demo GIF or Screenshot -->
 ![Hero Demo](public/logo-synthia.svg)
 <!-- Replace with a GIF or demo screenshot for extra wow! -->
 <!-- ![Demo GIF](https://your-demo-link/demo.gif) -->
@@ -38,7 +39,7 @@
 | 🖼️ Image Generation    | Create new images from text descriptions                                    | ![Gen UI](public/logo-final.svg) |
 | 🔄 Content Repurposing | Instantly adapt images for slides, social, or video                         | ![Repurpose](public/placeholder.svg) |
 | ⚡ Fast & Secure       | Real-time processing, privacy-first                                         |                                  |
-| 🌈 Modern UI           | Responsive, beautiful interface (light/dark mode)                           |                                  |
+| 🌈 Modern UI           | Responsive, beautiful interface (light/dark mode)                           | ![Light Mode](public/logo-synthia.svg) ![Dark Mode](public/logo-synthia.svg) |
 
 ---
 
@@ -69,7 +70,7 @@
 ```bash
 git clone https://github.com/Manavarya09/theme001-new.git
 cd theme001-new
-pnpm install
+npm install
 ```
 
 ---
@@ -77,29 +78,17 @@ pnpm install
 ## ▶️ Usage
 
 ```bash
-pnpm run dev
+npm run dev
 ```
 - Open [http://localhost:5173](http://localhost:5173) in your browser.
 - Upload an image, enter your edit prompt, and see instant results!
+- Try light/dark mode toggle for a modern UI experience.
+- Explore image generation and repurposing features for slides, social, or video.
 
-![UI Screenshot](public/logo-synthia.svg)
-<!-- Add light/dark mode screenshots here -->
-
----
-
-## 🌐 Deployment
-
-- **Live Demo:** [https://your-netlify-demo-link.netlify.app](https://your-netlify-demo-link.netlify.app)
-- **Netlify:** Automatic deploys from `main` branch
 
 ---
 
-## 🎥 Demo Video
 
-<div align="center">
-  <!-- Replace with your own demo GIF or video link -->
-  <img src="public/logo-synthia.svg" width="400" alt="Demo GIF"/>
-</div>
 
 ---
 
@@ -109,7 +98,6 @@ pnpm run dev
 graph TD
     A[Client: React + Tailwind] -->|REST API| B[Express Server]
     B -->|DashScope API| C[Alibaba Cloud]
-    B -->|Serverless| D[Netlify Functions]
 ```
 
 ---
@@ -119,16 +107,8 @@ graph TD
 | Name            | Role         | GitHub                        | LinkedIn                |
 |-----------------|-------------|-------------------------------|-------------------------|
 | Manavarya Singh | Lead Dev    | [GitHub](https://github.com/Manavarya09) | [LinkedIn](https://linkedin.com/in/manavaryasingh) |
-| Add teammates!  | Designer    | [GitHub](#)                   | [LinkedIn](#)           |
-
----
-
-## 🚀 Contribution Guide
-
-- Fork the repo
-- Create a feature branch
-- Submit a PR with clear description
-- See [CONTRIBUTING.md](CONTRIBUTING.md) for details
+| Ashmit Dhown    | Designer    | [GitHub](#)                   | [LinkedIn](#)           |
+| Aaryan Gupta    | Developer   | [GitHub](#)                   | [LinkedIn](#)           |
 
 ---
 
@@ -141,7 +121,7 @@ This project is licensed under the MIT License.
 <div align="center">
 
 ⭐ **Star this repo if you like it!**  
-🏅 _Submitted for [Your Hackathon Name] — Track: AI for Creativity_
+🏅 _Submitted for [Alibaba CLoud Hackatthon 2025] — Team History Buffers_
 
 </div>
 
