@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🖼️ Synthia Studio: AI-Powered Image Editing & Generation
+# 🖼️ Synthia Studio
 ### _"Transform your visuals. Unleash creativity with AI."_
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/Manavarya09/theme001-new?style=social)
