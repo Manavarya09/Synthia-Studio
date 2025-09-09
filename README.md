@@ -98,8 +98,8 @@ graph TD
 | Name            | Role         | GitHub                        | LinkedIn                |
 |-----------------|-------------|-------------------------------|-------------------------|
 | Manavarya Singh | Lead Dev    | [GitHub](https://github.com/Manavarya09) | [LinkedIn](https://linkedin.com/in/manavaryasingh) |
-| Ashmit Dhown    | Designer    | [GitHub](#)                   | [LinkedIn](#)           |
-| Aaryan Gupta    | Developer   | [GitHub](#)                   | [LinkedIn](#)           |
+| Ashmit Dhown    | Lead Dev    | [GitHub](#)                   | [LinkedIn](#)           |
+| Aaryan Gupta    | Lead Dev    | [GitHub](#)                   | [LinkedIn](#)           |
 
 ---
 
