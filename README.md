@@ -27,7 +27,7 @@
 
 ## 💡 Solution
 
-**Synthia Studio** leverages Alibaba’s DashScope AI to deliver instant, high-quality image editing and generation. Upload, describe, and transform images in seconds—no design skills required. Perfect for marketers, educators, and creators!
+**Synthia Studio** brings together AI-powered tools for text, images, videos, and presentations in one platform. It simplifies complex content creation workflows into an easy, intuitive experience. Accessible globally, it empowers anyone—from students to businesses—to create professional content with ease.
 
 ---
 
@@ -71,10 +71,10 @@ npm install
 ```bash
 npm run dev
 ```
-- Open [http://localhost:5173](http://localhost:5173) in your browser.
-- Upload an image, enter your edit prompt, and see instant results!
+- Open [http://localhost:8080](http://localhost:8080) in your browser.
+- Generate or edit text, images, videos, or slides with simple prompts.
 - Try light/dark mode toggle for a modern UI experience.
-- Explore image generation and repurposing features for slides, social, or video.
+- Repurpose content seamlessly for social posts, presentations, or promo videos.Explore image generation and repurposing features for slides, social, or video.
 
 
 ---
