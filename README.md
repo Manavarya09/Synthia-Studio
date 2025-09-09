@@ -118,6 +118,6 @@ This project is licensed under the MIT License.
 
 ---
 
-_Ready to transform your images? Try Synthia Studio now!_
+_Ready to transform your creativity to reality? Try Synthia Studio now!_
 
 ---
