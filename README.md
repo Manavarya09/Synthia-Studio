@@ -31,15 +31,6 @@
 
 ---
 
-## ✨ Features
-
-| Feature                | Description                                                                 | Visual/Screenshot                |
-|------------------------|-----------------------------------------------------------------------------|----------------------------------|
-| 🎨 AI Image Editing    | Edit images with natural language prompts                                   | ![Edit UI](public/logo-new.svg)  |
-| 🖼️ Image Generation    | Create new images from text descriptions                                    | ![Gen UI](public/logo-final.svg) |
-| 🔄 Content Repurposing | Instantly adapt images for slides, social, or video                         | ![Repurpose](public/placeholder.svg) |
-| ⚡ Fast & Secure       | Real-time processing, privacy-first                                         |                                  |
-| 🌈 Modern UI           | Responsive, beautiful interface (light/dark mode)                           | ![Light Mode](public/logo-synthia.svg) ![Dark Mode](public/logo-synthia.svg) |
 
 ---
 
