@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🖼️ Synthia: AI-Powered Image Editing & Generation
+# 🖼️ Synthia Studio: AI-Powered Image Editing & Generation
 ### _"Transform your visuals. Unleash creativity with AI."_
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/Manavarya09/theme001-new?style=social)
@@ -27,7 +27,7 @@
 
 ## 💡 Solution
 
-**Synthia** leverages Alibaba’s DashScope AI to deliver instant, high-quality image editing and generation. Upload, describe, and transform images in seconds—no design skills required. Perfect for marketers, educators, and creators!
+**Synthia Studio** leverages Alibaba’s DashScope AI to deliver instant, high-quality image editing and generation. Upload, describe, and transform images in seconds—no design skills required. Perfect for marketers, educators, and creators!
 
 ---
 
@@ -52,7 +52,7 @@
 
 ## ⚡ Impact & Future Scope
 
-> _“Synthia democratizes creative AI, making advanced image editing accessible to everyone. Future plans: video editing, real-time collaboration, and integrations with popular platforms.”_
+> _“Synthia Studio democratizes creative AI, making advanced image editing accessible to everyone. Future plans: video editing, real-time collaboration, and integrations with popular platforms.”_
 
 ---
 
@@ -112,12 +112,12 @@ This project is licensed under the MIT License.
 <div align="center">
 
 ⭐ **Star this repo if you like it!**  
-🏅 _Submitted for [Alibaba CLoud Hackatthon 2025] — Team History Buffers_
+🏅 _Submitted for [Alibaba Cloud Hackathon 2025] — Team History Buffers_
 
 </div>
 
 ---
 
-_Ready to transform your images? Try Synthia now!_
+_Ready to transform your images? Try Synthia Studio now!_
 
 ---
